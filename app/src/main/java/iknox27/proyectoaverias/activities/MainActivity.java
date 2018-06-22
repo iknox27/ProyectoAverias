@@ -1,13 +1,16 @@
-package iknox27.proyectoaverias;
+package iknox27.proyectoaverias.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class SplahActivity extends AppCompatActivity {
+import iknox27.proyectoaverias.R;
+
+public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_splah);
+    setContentView(R.layout.activity_main);
   }
+  //
 }

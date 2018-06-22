@@ -1,7 +1,9 @@
-package iknox27.proyectoaverias;
+package iknox27.proyectoaverias.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import iknox27.proyectoaverias.R;
 
 public class AveriasActivity extends AppCompatActivity {
 
