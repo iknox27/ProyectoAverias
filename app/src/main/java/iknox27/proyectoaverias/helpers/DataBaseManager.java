@@ -4,15 +4,14 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.fireblend.uitest.bd.DataBaseHelper;
-import com.fireblend.uitest.entities.Contact;
-import com.fireblend.uitest.ui.MainActivity;
+
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.Where;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import iknox27.proyectoaverias.db.DataBaseHelper;
 import iknox27.proyectoaverias.entities.User;
 
 public class DataBaseManager {

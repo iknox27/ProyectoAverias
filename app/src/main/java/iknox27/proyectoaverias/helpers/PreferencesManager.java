@@ -3,7 +3,7 @@ package iknox27.proyectoaverias.helpers;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.fireblend.uitest.bd.DataBaseHelper;
+
 
 public class PreferencesManager {
 
