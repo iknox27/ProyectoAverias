@@ -3,11 +3,114 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+    android:background="@color/colorfondo2"
   tools:context=".fragments.LoginFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="16dp"
+            >
+
+            <ImageView
+            android:id="@+id/averiasImagen"
+            android:layout_centerInParent="true"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/iconoaverias"/>
+
+            <TextView
+                android:layout_marginTop="16dp"
+                android:layout_below="@id/averiasImagen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Inicio de Sesión"
+                android:layout_centerHorizontal="true"
+                android:textSize="20sp"
+                android:textColor="#fff"
+                />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/relaData"
+            android:layout_alignParentEnd="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="16dp">
+
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/edittext_rounded"
+                android:hint="Nombre de usuario"
+                android:inputType="text"/>
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_below="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/edittext_rounded"
+                android:hint="Clave de usuario"
+                android:inputType="text"/>
+
+            <RelativeLayout
+                android:layout_below="@+id/password"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/loginUser"
+                    android:layout_below="@+id/passwordRegister"
+                    android:layout_width="156dp"
+                    android:layout_height="56dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="Ingresar"
+                    />
+
+                <TextView
+                    android:layout_below="@+id/loginUser"
+                    android:id="@+id/textNot"
+                    android:textColor="#fff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No tienes cuenta?"
+                    android:layout_marginBottom="6dp"/>
+
+                <TextView
+                    android:layout_below="@+id/loginUser"
+                    android:id="@+id/textNotRegister"
+                    android:layout_toRightOf="@id/textNot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/register"
+                    android:layout_marginLeft="5dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="6dp"
+                    android:textColor="#fff"/>
+
+            </RelativeLayout>
+
+
+
+        </RelativeLayout>
 
 
     </RelativeLayout>

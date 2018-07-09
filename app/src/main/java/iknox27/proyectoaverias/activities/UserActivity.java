@@ -20,7 +20,7 @@ public class UserActivity extends AppCompatActivity {
 
   
 
-  protected void setFragment(Fragment fragment) {
+  public void setFragment(Fragment fragment) {
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction =
             fragmentManager.beginTransaction();

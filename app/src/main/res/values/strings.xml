@@ -4,7 +4,14 @@
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-
+    <string name="register"><u><b><i>Registrarme</i></b></u></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="person_name">Nombre de la persona</string>
+    <string name="password">Clave de usuario</string>
+    <string name="usernameHint">Nombre de usuario</string>
+    <string name="user_id_hint">Número de Cédula</string>
+    <string name="phone_number">Número de Teléfono</string>
+    <string name="email">Correo electrónico</string>
+    <string name="crear_usuario">Crear Usuario</string>
 </resources>

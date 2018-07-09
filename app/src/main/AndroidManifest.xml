@@ -22,7 +22,8 @@
         </activity>
         <activity
             android:name=".activities.UserActivity"
-            android:label="Inicio de Sesion"/>
+            android:label="Inicio de Sesion"
+            android:theme="@style/AppTheme"/>
         <activity android:name=".activities.AveriasActivity"></activity>
     </application>
 
