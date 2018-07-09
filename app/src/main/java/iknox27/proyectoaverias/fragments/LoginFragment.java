@@ -10,8 +10,15 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -21,11 +28,13 @@ import iknox27.proyectoaverias.R;
 import iknox27.proyectoaverias.activities.UserActivity;
 
 
+
 public class LoginFragment extends Fragment {
 
   private final int HOME = 16908332;
   private UserActivity mActivity;
   View rootView;
+    int[] sampleImages = {R.drawable.slider6, R.drawable.slider1, R.drawable.slider3, R.drawable.slider4};
 
   @BindView(R.id.textNotRegister)
   TextView txt;
@@ -49,7 +58,21 @@ public class LoginFragment extends Fragment {
     // Inflate the layout for this fragment
     rootView =  inflater.inflate(R.layout.fragment_login, container, false);
     ButterKnife.bind(this,rootView);
+
     mActivity.getSupportActionBar().hide();
+
+      CarouselView carouselView;
+
+
+      carouselView = (CarouselView) rootView.findViewById(R.id.carouselView);
+      carouselView.setPageCount(sampleImages.length);
+      //carouselView.hid
+        carouselView.setIndicatorVisibility(View.INVISIBLE);
+
+
+
+      carouselView.setImageListener(imageListener);
+
     //mActivity.setTitle("Formularios");
     return rootView;
   }
@@ -66,5 +89,10 @@ public class LoginFragment extends Fragment {
   }
 
 
-
+    ImageListener imageListener = new ImageListener() {
+        @Override
+        public void setImageForPosition(int position, ImageView imageView) {
+            imageView.setImageResource(sampleImages[position]);
+        }
+    };
 }
