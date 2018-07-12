@@ -2,11 +2,9 @@ package iknox27.proyectoaverias.helpers;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.Where;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,16 +12,16 @@ import java.util.ArrayList;
 import iknox27.proyectoaverias.db.DataBaseHelper;
 import iknox27.proyectoaverias.entities.User;
 
-public class DataBaseManager {
+public class UserDBManager {
 
     DataBaseHelper bdHelper;
-    private static DataBaseManager singleton = new DataBaseManager( );
+    private static UserDBManager singleton = new UserDBManager();
 
-    private DataBaseManager() { }
+    private UserDBManager() { }
 
-    public static DataBaseManager getInstance( ) {
+    public static UserDBManager getInstance() {
         if(singleton == null) {
-            singleton = new DataBaseManager();
+            singleton = new UserDBManager();
         }
         return singleton;
     }
@@ -34,7 +32,21 @@ public class DataBaseManager {
         }
     }
 
-    public ArrayList<User> getContacts(){
+    public int getSizeUser(){
+        ArrayList<User> contacts = new ArrayList<User>();
+        try {
+            Dao<User, Integer> userDao = bdHelper.getUserDao();
+            contacts = (ArrayList<User>) userDao.queryForAll();
+            if(contacts.size() == 0){
+                return 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return  contacts.size();
+    }
+
+    public ArrayList<User> getUser(){
         ArrayList<User> contacts = new ArrayList<User>();
         try {
             Dao<User, Integer> userDao = bdHelper.getUserDao();
@@ -50,7 +62,7 @@ public class DataBaseManager {
         return  contacts;
     }
 
-    public boolean saveContact(User c){
+    public boolean saveUser(User c){
         try {
             Dao<User, Integer> userDao = bdHelper.getUserDao();
             userDao.create(c);
@@ -62,7 +74,7 @@ public class DataBaseManager {
         }
     }
 
-    public boolean deleteContact(int id){
+    public boolean deleteUser(int id){
         try {
             Dao<User, Integer> userDao = bdHelper.getUserDao();
             userDao.deleteById(id);

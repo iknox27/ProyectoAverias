@@ -9,11 +9,6 @@ public class PreferencesManager {
 
     private static SharedPreferences mPreferences;
     private static final String PREF_FILE = "app.preferences";
-    public String ARG_FONTSIZE = "arg.fontSize";
-    public  String ARG_BACKGROUNDCOLOR = "arg.backgroundColor";
-    public  String ARG_BACKGROUNDCOLOR2 = "arg.backgroundColor2";
-    public String ARG_SHOWHIDE = "arg.remember";
-    public  String ARG_COLUMNS = "arg.cols";
     private static PreferencesManager singleton = new PreferencesManager( );
 
     private PreferencesManager() { }
