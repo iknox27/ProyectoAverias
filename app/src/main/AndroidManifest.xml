@@ -27,7 +27,7 @@
             android:name=".activities.UserActivity"
             android:label="Inicio de Sesion"
             android:theme="@style/AppTheme"/>
-        <activity android:name=".activities.AveriasActivity"></activity>
+        <activity android:name=".activities.BreakDownsActivity" android:label="Averias"/>
     </application>
 
 </manifest>

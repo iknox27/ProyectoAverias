@@ -2,7 +2,6 @@ package iknox27.proyectoaverias.activities;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -25,7 +24,7 @@ public class SplahActivity extends AppCompatActivity {
         if(token.equals("")){
           mainIntent = new Intent(SplahActivity.this,UserActivity.class);
         }else{
-          mainIntent = new Intent(SplahActivity.this,AveriasActivity.class);
+          mainIntent = new Intent(SplahActivity.this,BreakDownsActivity.class);
         }
         startActivity(mainIntent);
         finish();
