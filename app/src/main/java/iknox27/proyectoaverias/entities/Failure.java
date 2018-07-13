@@ -1,51 +1,31 @@
 package iknox27.proyectoaverias.entities;
 
 public class Failure {
-    private String id;
-
-    public String getId() { return this.id; }
-
-    public void setId(String id) { this.id = id; }
-
-    private String nombre;
-
-    public String getNombre() { return this.nombre; }
-
-    public void setNombre(String nombre) { this.nombre = nombre; }
-
-    private String tipo;
-
-    public String getTipo() { return this.tipo; }
-
-    public void setTipo(String tipo) { this.tipo = tipo; }
-
+    public String id;
+    public String nombre;
+    public String tipo;
     private User usuario;
+    public String fecha;
+    public String descripcion;
+    public String imagen;
+    public Location ubicacion;
 
-    public User getUsuario() { return this.usuario; }
+    public Failure(String id,String nombre,String tipo,String fecha,String descripcion, String imagen, Location location){
+        this.id = id;
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.fecha = fecha;
+        this.descripcion = descripcion;
+        this.imagen = imagen;
+        this.ubicacion = new Location(location.getLat(),location.getLon());
+        this.setUsuario(new User());
+    }
 
-    public void setUsuario(User usuario) { this.usuario = usuario; }
+    public User getUsuario() {
+        return usuario;
+    }
 
-    private String fecha;
-
-    public String getFecha() { return this.fecha; }
-
-    public void setFecha(String fecha) { this.fecha = fecha; }
-
-    private String descripcion;
-
-    public String getDescripcion() { return this.descripcion; }
-
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
-
-    private String imagen;
-
-    public String getImagen() { return this.imagen; }
-
-    public void setImagen(String imagen) { this.imagen = imagen; }
-
-    private Location location;
-
-    public Location getLocation() { return this.location; }
-
-    public void setLocation(Location location) { this.location = location; }
+    public void setUsuario(User usuario) {
+        this.usuario = usuario;
+    }
 }

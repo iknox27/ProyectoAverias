@@ -12,7 +12,7 @@ public class ConnectionServiceManager{
 
         if(singleton == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://jsonplaceholder.typicode.com/")
+                    .baseUrl("https://fn3arhnwsg.execute-api.us-west-2.amazonaws.com/produccion/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
