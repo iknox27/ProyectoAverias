@@ -14,4 +14,5 @@
     <string name="phone_number">Número de Teléfono</string>
     <string name="email">Correo electrónico</string>
     <string name="crear_usuario">Crear Usuario</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
