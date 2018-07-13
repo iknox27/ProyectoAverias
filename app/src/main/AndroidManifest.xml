@@ -21,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustResize">
-        <activity android:name=".activities.DetailsActivity"></activity>
+        <activity android:name=".activities.DetailsActivity" />
         <activity
             android:name=".activities.SplahActivity"
             android:theme="@style/NoActionBar">
@@ -50,6 +50,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity android:name=".activities.AddFailureActivity"></activity>
     </application>
 
 </manifest>

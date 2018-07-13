@@ -3,6 +3,7 @@ package iknox27.proyectoaverias.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,11 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import iknox27.proyectoaverias.R;
 import iknox27.proyectoaverias.adapters.BreaksListAdapter;
 import iknox27.proyectoaverias.entities.Failure;
@@ -29,8 +32,8 @@ import retrofit2.Response;
 public class BreakDownsListFragment extends Fragment {
 
     View rootView;
-    @BindView(R.id.recycler_list)
-    RecyclerView recyclerView;
+    @BindView(R.id.recycler_list) RecyclerView recyclerView;
+    @BindView(R.id.fab) FloatingActionButton fab;
     BreaksListAdapter adapter;
     FailureService failureService;
     Utils utils;
@@ -98,5 +101,11 @@ public class BreakDownsListFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         adapter = new BreaksListAdapter(response,recyclerView,rootView.getContext(),getActivity());
         recyclerView.setAdapter(adapter);
+    }
+
+    @OnClick(R.id.fab)
+    public void fabClicked(){
+        Toast.makeText(getActivity(),
+                "Toast por defecto", Toast.LENGTH_SHORT).show();
     }
 }

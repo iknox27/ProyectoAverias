@@ -38,7 +38,7 @@ public class UserActivity extends AppCompatActivity implements RegisterFragment.
 
   @Override
   public void register(final User user) {
-    utils.showProgess(getApplicationContext(),"Creando Usuario");
+    utils.showProgess(this,"Creando Usuario");
 
     TimerTask task = new TimerTask() {
       @Override
