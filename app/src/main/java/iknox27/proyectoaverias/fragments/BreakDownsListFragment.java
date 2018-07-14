@@ -3,8 +3,11 @@ package iknox27.proyectoaverias.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.SwipeDismissBehavior;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -34,6 +37,7 @@ public class BreakDownsListFragment extends Fragment {
     View rootView;
     @BindView(R.id.recycler_list) RecyclerView recyclerView;
     @BindView(R.id.fab) FloatingActionButton fab;
+    private SwipeRefreshLayout mswipeRefreshLayout;
     BreaksListAdapter adapter;
     FailureService failureService;
     Utils utils;
@@ -46,7 +50,7 @@ public class BreakDownsListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        obtenerAverias();
+        obtenerAverias(1);
     }
 
     @Override
@@ -55,7 +59,16 @@ public class BreakDownsListFragment extends Fragment {
 
         rootView =  inflater.inflate(R.layout.fragment_break_downs_list, container, false);
         ButterKnife.bind(this,rootView);
+        mswipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
+        mswipeRefreshLayout.setEnabled(true);
+        mswipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+        mswipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                obtenerAverias(2);
+            }
 
+        });
         return rootView;
     }
 
@@ -69,15 +82,19 @@ public class BreakDownsListFragment extends Fragment {
         super.onDetach();
     }
 
-    private void obtenerAverias(){
-        utils.showProgess(getActivity(),"Cargando Aveerías");
+    private void obtenerAverias(final int id){
+        utils.showProgess(getActivity(),"Cargando Averías");
         failureService = ConnectionServiceManager.obtenerServicio();
         failureService.obtenerListaDeAverias().enqueue(new Callback<List<Failure>>() {
             @Override
-            public void onResponse(Call<List<Failure>> call, Response<List<Failure>> response) {
+            public void onResponse(@NonNull Call<List<Failure>> call, Response<List<Failure>> response) {
                 Log.d("bien","bien");
                 if(response.isSuccessful() && response.body().size() > 0){
-                    attachRecycler(response.body());
+                    switch (id){
+                        case 1 :attachRecycler(response.body()); break;
+                        case 2 :refreshRecycler(response.body());break;
+                    }
+
                 }else{
 
                 }
@@ -102,6 +119,12 @@ public class BreakDownsListFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         adapter = new BreaksListAdapter(response,recyclerView,rootView.getContext(),getActivity());
         recyclerView.setAdapter(adapter);
+    }
+
+    public void refreshRecycler(List<Failure> response){
+        adapter.setList(response);
+        mswipeRefreshLayout.setRefreshing(false);
+        adapter.notifyDataSetChanged();
     }
 
     @OnClick(R.id.fab)

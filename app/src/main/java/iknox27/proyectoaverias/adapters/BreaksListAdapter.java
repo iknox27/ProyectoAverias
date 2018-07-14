@@ -49,6 +49,10 @@ public class BreaksListAdapter extends RecyclerView.Adapter<BreaksListAdapter.Br
         }
     }
 
+    public void setList(List<Failure> myBreaks){
+        this.myBreaks= myBreaks;
+    }
+
     @Override
     public int getItemCount() {
         return myBreaks.size();
