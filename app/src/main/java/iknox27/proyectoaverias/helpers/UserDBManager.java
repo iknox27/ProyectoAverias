@@ -62,6 +62,25 @@ public class UserDBManager {
         return  contacts;
     }
 
+    public boolean getCurrentUser(String token){
+        ArrayList<User> contacts = new ArrayList<User>();
+        try {
+            Dao<User, Integer> userDao = bdHelper.getUserDao();
+            contacts = (ArrayList<User>) userDao.queryForEq("token",token);
+            //Si no se encontro ningun usuario, es porque no existe
+            if(contacts.size() == 0){
+                //Toast.makeText(MainActivity.this, "Ese usuario no existe!", Toast.LENGTH_SHORT).show();
+                return false;
+            }else{
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return  false;
+        }
+
+    }
+
     public boolean saveUser(User c){
         try {
             Dao<User, Integer> userDao = bdHelper.getUserDao();

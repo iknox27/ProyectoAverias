@@ -81,7 +81,6 @@ public class RegisterFragment extends Fragment {
     }
   }
 
-
   @OnClick(R.id.addUser)
   public void descargar(){
     User user = new User();
@@ -91,10 +90,9 @@ public class RegisterFragment extends Fragment {
     user.card_id = userid.getText().toString();
     user.username = usernameRegister.getText().toString();
     user.password =  passwordRegister.getText().toString();
-    user.token = mActivity.utils.createkey(user.username);
+    user.token = mActivity.utils.createkey(user.username + user.password);
     registerInterface.register(user);
   }
-
 
   public interface RegisterInterface{
     void register(User user);

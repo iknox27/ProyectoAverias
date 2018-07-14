@@ -20,7 +20,7 @@ import iknox27.proyectoaverias.helpers.PreferencesManager;
 import iknox27.proyectoaverias.helpers.UserDBManager;
 import iknox27.proyectoaverias.utils.Utils;
 
-public class UserActivity extends AppCompatActivity implements RegisterFragment.RegisterInterface{
+public class UserActivity extends AppCompatActivity implements RegisterFragment.RegisterInterface, LoginFragment.LoginInterface{
   private static final long SPLASH_SCREEN_DELAY = 3000;
   public Utils utils;
   UserDBManager userDBManager;
@@ -38,27 +38,19 @@ public class UserActivity extends AppCompatActivity implements RegisterFragment.
 
   @Override
   public void register(final User user) {
-    utils.showProgess(this,"Creando Usuario");
-
-    TimerTask task = new TimerTask() {
-      @Override
-      public void run() {
+        utils.showProgess(this,"Creando Usuario");
         userDBManager.saveUser(user);
         int size = userDBManager.getSizeUser();
-        utils.hideProgress();
         if(size > 0){
-
-          preferenceManager.saveString(UserActivity.this,"token",user.token);
-
+          utils.hideProgress();
+         // preferenceManager.saveString(UserActivity.this,"token",user.token);
+          setFragment(new LoginFragment());
         }else{
+            Toast.makeText(this,
+                    "A ocurrido un error, intente mas tarde", Toast.LENGTH_SHORT).show();
         }
       }
-    };
-    Timer timer = new Timer();
-    timer.schedule(task, SPLASH_SCREEN_DELAY);
 
-
-  }
 
   public void setFragment(Fragment fragment) {
     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -67,4 +59,18 @@ public class UserActivity extends AppCompatActivity implements RegisterFragment.
     fragmentTransaction.replace(android.R.id.content, fragment);
     fragmentTransaction.commit();
   }
+
+    @Override
+    public void login(User user) {
+        if(userDBManager.getCurrentUser(user.token)){
+            Intent myIntent = new Intent(UserActivity.this, BreakDownsActivity.class);
+            preferenceManager.saveString(UserActivity.this,"token",user.token);
+            //myIntent.putExtra("key", value); //Optional parameters
+            startActivity(myIntent);
+            finish();
+        }else{
+            Toast.makeText(this,
+                    "Usuario o clave incorrectos", Toast.LENGTH_LONG).show();
+        }
+    }
 }
