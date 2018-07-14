@@ -40,12 +40,13 @@ public class BreakDownsListFragment extends Fragment {
     public BreakDownsListFragment() {
         // Required empty public constructor
         utils = new Utils();
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        obtenerAverias();
     }
 
     @Override
@@ -54,7 +55,7 @@ public class BreakDownsListFragment extends Fragment {
 
         rootView =  inflater.inflate(R.layout.fragment_break_downs_list, container, false);
         ButterKnife.bind(this,rootView);
-        obtenerAverias();
+
         return rootView;
     }
 

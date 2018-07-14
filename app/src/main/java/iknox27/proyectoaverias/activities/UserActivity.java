@@ -45,13 +45,12 @@ public class UserActivity extends AppCompatActivity implements RegisterFragment.
       public void run() {
         userDBManager.saveUser(user);
         int size = userDBManager.getSizeUser();
+        utils.hideProgress();
         if(size > 0){
-          preferenceManager.saveString(getApplicationContext(),"token",user.token);
-          Toast.makeText(getApplicationContext(),
-                  "Se creo el usuario correctamente", Toast.LENGTH_LONG).show();
+
+          preferenceManager.saveString(UserActivity.this,"token",user.token);
+
         }else{
-          Toast.makeText(getApplicationContext(),
-                  "Error creando el usuario", Toast.LENGTH_LONG).show();
         }
       }
     };
