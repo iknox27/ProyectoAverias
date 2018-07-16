@@ -31,6 +31,11 @@
     <item name = "android:windowNoTitle">true</item>
   </style>
 
+    <style name = "NoActionBar3" parent = "Theme.AppCompat.Light.NoActionBar">
+        <item name = "android:windowActionBar">false</item>
+        <item name = "android:windowNoTitle">true</item>
+    </style>
+
   <style name="EditTextTheme" parent="Theme.AppCompat.Light.DarkActionBar">
     <item name="colorControlNormal">@color/colorPrimary</item>
     <item name="colorControlActivated">@color/colorPrimaryDark</item>
@@ -42,6 +47,18 @@
       @style/Widget.AppCompat.Button.Borderless.Colored
     </item>
     <item name="colorAccent">#FFAB40</item>
+  </style>
+
+  <style name="expandedappbar" parent="@android:style/TextAppearance.Medium">
+    <item name="android:textSize">48sp
+    </item>
+    <item name="android:textColor">#fff</item>
+    <item name="android:textStyle">bold</item>
+  </style>
+
+  <style name="collapsedappbar" parent="@android:style/TextAppearance.Medium">
+    <item name="android:textSize">18sp</item>
+    <item name="android:textColor">#fff</item>
   </style>
 
 </resources>
