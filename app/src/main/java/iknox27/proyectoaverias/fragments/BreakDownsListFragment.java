@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import iknox27.proyectoaverias.R;
 import iknox27.proyectoaverias.activities.AddEditFailureActivity;
+import iknox27.proyectoaverias.activities.BreakDownsActivity;
 import iknox27.proyectoaverias.activities.UserActivity;
 import iknox27.proyectoaverias.adapters.BreaksListAdapter;
 import iknox27.proyectoaverias.entities.Failure;
@@ -44,6 +45,7 @@ public class BreakDownsListFragment extends Fragment {
     BreaksListAdapter adapter;
     FailureService failureService;
     Utils utils;
+    BreakListInterface breakListInterface;
     public BreakDownsListFragment() {
         // Required empty public constructor
         utils = new Utils();
@@ -53,7 +55,8 @@ public class BreakDownsListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        obtenerAverias(1);
+
+        //obtenerAverias(1);
     }
 
     @Override
@@ -62,6 +65,8 @@ public class BreakDownsListFragment extends Fragment {
 
         rootView =  inflater.inflate(R.layout.fragment_break_downs_list, container, false);
         ButterKnife.bind(this,rootView);
+        List<Failure> f = getArguments().getParcelableArrayList("lista");
+        attachRecycler(f);
         mswipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
         mswipeRefreshLayout.setEnabled(true);
         mswipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
@@ -77,8 +82,9 @@ public class BreakDownsListFragment extends Fragment {
 
     @Override
     public void onAttach(Context context) {
-        userActivity = new UserActivity();
         super.onAttach(context);
+        userActivity = new UserActivity();
+        breakListInterface = (BreakListInterface) context;
     }
 
     @Override
@@ -95,11 +101,8 @@ public class BreakDownsListFragment extends Fragment {
                 Log.d("bien","bien");
                 if(response.isSuccessful() && response.body().size() > 0){
                     switch (id){
-                        case 1 :attachRecycler(response.body()); break;
                         case 2 :refreshRecycler(response.body());break;
                     }
-
-                }else{
 
                 }
                 utils.hideProgress();
@@ -121,7 +124,7 @@ public class BreakDownsListFragment extends Fragment {
         recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(rootView.getContext(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
-        adapter = new BreaksListAdapter(response,recyclerView,rootView.getContext(),getActivity());
+        adapter = new BreaksListAdapter(response,recyclerView,rootView.getContext(),(BreakDownsActivity)getActivity());
         recyclerView.setAdapter(adapter);
     }
 
@@ -133,8 +136,11 @@ public class BreakDownsListFragment extends Fragment {
 
     @OnClick(R.id.fab)
     public void fabClicked(){
-        Intent i = new Intent(getActivity(), AddEditFailureActivity.class);
-        startActivity(i);
-        getActivity().finish();
+        breakListInterface.goToAddEdit();
+        /**/
+    }
+
+    public interface BreakListInterface{
+        void goToAddEdit();
     }
 }

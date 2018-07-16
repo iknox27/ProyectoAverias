@@ -62,7 +62,7 @@
                 </RelativeLayout>
 
                 <Button
-                    android:id="@+id/addAdminRecycler"
+                    android:id="@+id/editAdminRecycler"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:theme="@style/PrimaryFlatButton"

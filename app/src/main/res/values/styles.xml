@@ -57,7 +57,7 @@
   </style>
 
   <style name="collapsedappbar" parent="@android:style/TextAppearance.Medium">
-    <item name="android:textSize">18sp</item>
+    <item name="android:textSize">14sp</item>
     <item name="android:textColor">#fff</item>
   </style>
 

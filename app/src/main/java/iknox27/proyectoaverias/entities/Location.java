@@ -1,7 +1,27 @@
 package iknox27.proyectoaverias.entities;
 
-public class Location {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Location implements Parcelable {
     private double lat;
+
+    protected Location(Parcel in) {
+        lat = in.readDouble();
+        lon = in.readDouble();
+    }
+
+    public static final Creator<Location> CREATOR = new Creator<Location>() {
+        @Override
+        public Location createFromParcel(Parcel in) {
+            return new Location(in);
+        }
+
+        @Override
+        public Location[] newArray(int size) {
+            return new Location[size];
+        }
+    };
 
     public double getLat() { return this.lat; }
 
@@ -16,5 +36,16 @@ public class Location {
     public Location(double lat,double lon){
         this.lat = lat;
         this.lon = lon;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeDouble(lat);
+        parcel.writeDouble(lon);
     }
 }

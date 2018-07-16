@@ -84,10 +84,10 @@ public class RegisterFragment extends Fragment {
   @OnClick(R.id.addUser)
   public void descargar(){
     User user = new User();
-    user.name =  name.getText().toString();
-    user.email = email.getText().toString();
-    user.phone = phoneNumber.getText().toString();
-    user.card_id = userid.getText().toString();
+    user.nombre =  name.getText().toString();
+    user.correo = email.getText().toString();
+    user.tel = phoneNumber.getText().toString();
+    user.cedula = userid.getText().toString();
     user.username = usernameRegister.getText().toString();
     user.password =  passwordRegister.getText().toString();
     user.token = mActivity.utils.createkey(user.username + user.password);

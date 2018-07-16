@@ -15,16 +15,18 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.OnClick;
 import iknox27.proyectoaverias.R;
+import iknox27.proyectoaverias.activities.BreakDownsActivity;
 import iknox27.proyectoaverias.entities.Failure;
 
-public class BreaksListAdapter extends RecyclerView.Adapter<BreaksListAdapter.BreaksListViewHolder>{
+public class BreaksListAdapter extends RecyclerView.Adapter<BreaksListAdapter.BreaksListViewHolder> implements View.OnClickListener{
 
      List<Failure> myBreaks;
      RecyclerView recyclerView;
      Context mContext;
-     Activity activity;
-    public BreaksListAdapter(List<Failure> fails, RecyclerView recyclerView, Context context, Activity activity){
+    BreakDownsActivity activity;
+    public BreaksListAdapter(List<Failure> fails, RecyclerView recyclerView, Context context, BreakDownsActivity activity){
         myBreaks = fails;
         this.recyclerView = recyclerView;
         this.mContext = context;
@@ -42,6 +44,8 @@ public class BreaksListAdapter extends RecyclerView.Adapter<BreaksListAdapter.Br
     @Override
     public void onBindViewHolder(@NonNull BreaksListViewHolder holder, int position) {
         holder.name.setText(myBreaks.get(position).nombre);
+        holder.btn.setTag(position);
+        holder.btn.setOnClickListener(this);
         if(!myBreaks.get(position).imagen.contains(".jpg") && !myBreaks.get(position).imagen.contains(".png")){
             Picasso.get().load(R.drawable.noimage).into(holder.img);
         }else{
@@ -58,6 +62,12 @@ public class BreaksListAdapter extends RecyclerView.Adapter<BreaksListAdapter.Br
         return myBreaks.size();
     }
 
+    @Override
+    public void onClick(View view) {
+            int pos = (int) view.getTag();
+            activity.getAllDataFromFailure(myBreaks.get(pos).id);
+    }
+
     public static class BreaksListViewHolder extends RecyclerView.ViewHolder {
 
 
@@ -68,12 +78,7 @@ public class BreaksListAdapter extends RecyclerView.Adapter<BreaksListAdapter.Br
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.textData);
             img = (ImageView) itemView.findViewById(R.id.photo_data);
-            /*name = (TextView) itemView.findViewById(R.id.name);
-            age = (TextView) itemView.findViewById(R.id.age);
-            phone = (TextView) itemView.findViewById(R.id.phone);
-            email = (TextView) itemView.findViewById(R.id.email);
-            provincia = (TextView) itemView.findViewById(R.id.provincia);
-            btn = (Button) itemView.findViewById(R.id.row_btn);*/
+            btn = (Button ) itemView.findViewById(R.id.editAdminRecycler);
         }
     }
 
