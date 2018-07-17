@@ -33,7 +33,7 @@ public class DetailsFailureFragment extends Fragment {
     TextView txt_description_change;
     @BindView(R.id.txt_location_change)
     TextView txt_location_change;
-
+    InterfacePrueba prueba;
     public DetailsFailureFragment() {
         // Required empty public constructor
     }
@@ -67,8 +67,9 @@ public class DetailsFailureFragment extends Fragment {
 
     @Override
     public void onAttach(Context context) {
-        super.onAttach(context);
 
+        super.onAttach(context);
+        prueba = (InterfacePrueba) context;
     }
 
     @Override
@@ -76,5 +77,8 @@ public class DetailsFailureFragment extends Fragment {
         super.onDetach();
     }
 
+    public  interface  InterfacePrueba{
+        void a();
+    }
 
 }
