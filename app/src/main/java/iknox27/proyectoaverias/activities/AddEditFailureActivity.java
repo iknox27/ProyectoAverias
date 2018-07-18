@@ -25,6 +25,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -124,13 +126,18 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
                     switch (menuItem.getItemId()){
                         case EDIT_DATA  :
                             Log.d("idValor", menuItem.getItemId()+"");
+                            collapsingToolbarLayout.setTitle("Editar Avería");
+                            fab.setVisibility(View.VISIBLE);
+                            fabSpeedDial.setVisibility(View.INVISIBLE);
+                            EditFailureFragment editFailureFragment = new EditFailureFragment();
+                            editFailureFragment.setArguments(setBundle());
+                            setFragment(editFailureFragment);
                             break;
                         case DELETE_DATA :
+                            askToDetele();
                             Log.d("idValor", menuItem.getItemId()+"");
                             break;
                     }
-
-                   // Toast.makeText(AddEditFailureActivity.this,"ver " + menuItem.,Toast.LENGTH_SHORT).show();
                     return true;
                 }
 
@@ -141,7 +148,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
             });
             setFragment(detailsFailureFragment);
             collapsingToolbarLayout.setTitle(failure.nombre);
-            //fab.setImageDrawable(getDrawable(R.drawable.ic_edit));
+            //fab.setVisibility(View.VISIBLE);
             typeFab = 0;
         }
 
@@ -168,7 +175,6 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             this.returnUri = data.getData();
-
             imageU = (Bitmap) data.getExtras().get("data");
             saveBitmap(imageU);
             setImage(imageU);
@@ -212,10 +218,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
         if (requestCode == MY_PERMISSIONS_REQUEST_LOCATION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
         }
-
-
     }
-
     private void dynamicToolbarColor() {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
                 R.drawable.slider3);
@@ -286,13 +289,9 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
         }
         return null;
     }
-
-
-
     public void setImage(Bitmap imageFromCamera){
         image.setImageBitmap(imageFromCamera);
     }
-
 
     @Override
     public void a() {
@@ -352,6 +351,47 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
                 Toast.makeText(getApplicationContext(),
                         "Error al crear la avería", Toast.LENGTH_LONG).show();
                 Log.d("fail", "fail" + t.getCause().getMessage());
+            }
+        });
+    }
+
+
+    private void askToDetele(){
+        new MaterialDialog.Builder(this)
+                .title("Eliminar Avería")
+                .content("Desea eliminar la averia"+ failure.nombre)
+                .positiveText("Aceptar")
+                .negativeText("Cancelar")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                        utils.showProgess(AddEditFailureActivity.this,"Eliminando avería");
+                        deleteFailure(failure.id);
+                    }
+                })
+                .show();
+    }
+
+    private void deleteFailure(String id){
+        failureService.eliminarAveriaPorId(id).enqueue(new Callback<Failure>() {
+            @Override
+            public void onResponse(Call<Failure> call, Response<Failure> response) {
+                if(response.isSuccessful()&& response.code() == 200){
+                    utils.hideProgress();
+                    Toast.makeText(getApplicationContext(),
+                            "Avería eliminada exitosamente", Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(AddEditFailureActivity.this, BreakDownsActivity.class);
+                    startActivity(i);
+                    finish();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Failure> call, Throwable t) {
+                utils.hideProgress();
+                Toast.makeText(getApplicationContext(),
+                        "Error al eliminar la avería", Toast.LENGTH_LONG).show();
             }
         });
     }

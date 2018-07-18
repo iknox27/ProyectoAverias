@@ -110,7 +110,7 @@ public class BreakDownsListFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Failure>> call, Throwable t) {
-                Log.d("mal","mal");
+                Log.d("mal2","mal2");
                 utils.hideProgress();
             }
         });

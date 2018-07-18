@@ -124,7 +124,7 @@ public class BreakDownsActivity extends AppCompatActivity implements BreakDownsL
 
             @Override
             public void onFailure(Call<List<Failure>> call, Throwable t) {
-                Log.d("mal","mal");
+                Log.d("malqq","mal");
                 utils.hideProgress();
             }
         });
@@ -146,10 +146,12 @@ public class BreakDownsActivity extends AppCompatActivity implements BreakDownsL
                     i.putExtra("responseFail",f);
                     i.putExtra("responseUser",u);
                     i.putExtra("responseLoc",loc);
+                    utils.hideProgress();
                     startActivity(i);
                     finish();
                 }else{
                     Log.d("mal","mal");
+                    utils.hideProgress();
                 }
 
             }
