@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -43,6 +44,8 @@ public class AddFailureFragment extends Fragment implements DatePickerDialog.OnD
     EditText inputLayoutTypeContent;
     @BindView(R.id.input_description_content)
     EditText inputlayoutDescriptionContent;
+    @BindView(R.id.txt_date_change)
+    TextView txt_date_change;
     String myDate;
     public AddFailureFragment() {
         // Required empty public constructor
@@ -86,6 +89,7 @@ public class AddFailureFragment extends Fragment implements DatePickerDialog.OnD
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         myDate = dayOfMonth + "-" + monthOfYear + "-" + year;
+        txt_date_change.setText(myDate);
     }
 
     @OnClick(R.id.addFailure)

@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.support.design.internal.NavigationMenu;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,8 @@ import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -40,9 +43,14 @@ import iknox27.proyectoaverias.R;
 import iknox27.proyectoaverias.entities.Failure;
 import iknox27.proyectoaverias.fragments.AddFailureFragment;
 import iknox27.proyectoaverias.fragments.EditFailureFragment;
+import iknox27.proyectoaverias.helpers.PreferencesManager;
+import iknox27.proyectoaverias.helpers.UserDBManager;
 import iknox27.proyectoaverias.service.ConnectionImgurManager;
+import iknox27.proyectoaverias.service.ConnectionServiceManager;
+import iknox27.proyectoaverias.service.FailureService;
 import iknox27.proyectoaverias.service.ImgurService;
 import iknox27.proyectoaverias.utils.Utils;
+import io.github.yavski.fabspeeddial.FabSpeedDial;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -58,15 +66,21 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
     int typeFab;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    private static final int EDIT_DATA = 2131230745;
+    private static final int DELETE_DATA = 2131230743;
     public Utils utils;
     ImgurService imgurService;
+    PreferencesManager preferenceManager;
+    UserDBManager userDBManager;
     @BindView(R.id.image)
     ImageView image;
     private File chosenFile;
-    @BindView(R.id.fab)
+    @BindView(R.id.fabutton)
     FloatingActionButton fab;
     public Uri returnUri;
     Bitmap imageU;
+    FailureService failureService;
+    FabSpeedDial fabSpeedDial;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,8 +92,13 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
         actionBar.setDisplayHomeAsUpEnabled(true);
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         utils = new Utils();
+        failureService = ConnectionServiceManager.obtenerServicio();
+        userDBManager = UserDBManager.getInstance();
+        userDBManager.startHelper(getApplicationContext());
+        preferenceManager = PreferencesManager.getInstance();
         if (getIntent().getBooleanExtra("add", true)) {
             fab.setImageDrawable(getDrawable(R.drawable.ic_camera));
+            fab.setVisibility(View.VISIBLE);
             collapsingToolbarLayout.setTitle("Agregar avería");
             typeFab = 1;
             setFragment(new AddFailureFragment());
@@ -92,10 +111,37 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
             DetailsFailureFragment detailsFailureFragment = new DetailsFailureFragment();
             detailsFailureFragment.setArguments(setBundle());
             Picasso.get().load(failure.imagen).into(image);
+            fabSpeedDial = (FabSpeedDial) findViewById(R.id.fabd);
+            fabSpeedDial.setVisibility(View.VISIBLE);
+            fabSpeedDial.setMenuListener(new FabSpeedDial.MenuListener() {
+                @Override
+                public boolean onPrepareMenu(NavigationMenu navigationMenu) {
+                    return true;
+                }
 
+                @Override
+                public boolean onMenuItemSelected(MenuItem menuItem) {
+                    switch (menuItem.getItemId()){
+                        case EDIT_DATA  :
+                            Log.d("idValor", menuItem.getItemId()+"");
+                            break;
+                        case DELETE_DATA :
+                            Log.d("idValor", menuItem.getItemId()+"");
+                            break;
+                    }
+
+                   // Toast.makeText(AddEditFailureActivity.this,"ver " + menuItem.,Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+
+                @Override
+                public void onMenuClosed() {
+
+                }
+            });
             setFragment(detailsFailureFragment);
             collapsingToolbarLayout.setTitle(failure.nombre);
-            fab.setImageDrawable(getDrawable(R.drawable.ic_edit));
+            //fab.setImageDrawable(getDrawable(R.drawable.ic_edit));
             typeFab = 0;
         }
 
@@ -254,7 +300,8 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
     }
 
     @Override
-    public void addI(String name, String type ,String des, String date) {
+    public void addI(final String name, final String type ,final String des, final String date) {
+        utils.showProgess(this,"Creando Avería");
         imgurService = ConnectionImgurManager.obtenerServicio();
         imgurService.postImage(name,des,"","",MultipartBody.Part.createFormData(
                 "image",
@@ -266,6 +313,12 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
                 Log.d("its", "its" + response.isSuccessful());
                 if(response.isSuccessful()){
                     ImageResponse imageResponse = response.body();
+                    android.location.Location loc = utils.getLastKnownLocation(AddEditFailureActivity.this);
+                    User u = userDBManager.getCurrentUser(preferenceManager.getStringValue(AddEditFailureActivity.this,"token"));
+                    Location location = new Location(loc.getLatitude(),loc.getLongitude());
+                    String id = utils.createkey(date+name+type);
+                    Failure f = new Failure(id,name,type,date,des,imageResponse.data.link,location,u);
+                    addNewFailure(f);
                 }
 
             }
@@ -273,6 +326,32 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
             @Override
             public void onFailure(Call<ImageResponse> call, Throwable t) {
                 Log.d("its", "its" + t.getCause().getMessage());
+                utils.hideProgress();
+            }
+        });
+    }
+
+    public void addNewFailure(Failure f){
+        failureService.crearAveria(f).enqueue(new Callback<Failure>() {
+            @Override
+            public void onResponse(Call<Failure> call, Response<Failure> response) {
+                utils.hideProgress();
+                if(response.isSuccessful() && response.code() == 200){
+                    Toast.makeText(getApplicationContext(),
+                            "Avería creada exitosamente", Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(AddEditFailureActivity.this, BreakDownsActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+                Log.d("respone", "respone" + response.isSuccessful());
+            }
+
+            @Override
+            public void onFailure(Call<Failure> call, Throwable t) {
+                utils.hideProgress();
+                Toast.makeText(getApplicationContext(),
+                        "Error al crear la avería", Toast.LENGTH_LONG).show();
+                Log.d("fail", "fail" + t.getCause().getMessage());
             }
         });
     }
