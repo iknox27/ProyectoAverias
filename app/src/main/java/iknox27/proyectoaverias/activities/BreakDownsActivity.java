@@ -13,6 +13,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +26,7 @@ import iknox27.proyectoaverias.entities.Failure;
 import iknox27.proyectoaverias.entities.Location;
 import iknox27.proyectoaverias.entities.User;
 import iknox27.proyectoaverias.fragments.BreakDownsListFragment;
+import iknox27.proyectoaverias.fragments.MapFragment;
 import iknox27.proyectoaverias.service.ConnectionServiceManager;
 import iknox27.proyectoaverias.service.FailureService;
 import iknox27.proyectoaverias.utils.Utils;
@@ -31,7 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BreakDownsActivity extends AppCompatActivity implements BreakDownsListFragment.BreakListInterface {
+public class BreakDownsActivity extends AppCompatActivity implements BreakDownsListFragment.BreakListInterface, MapFragment.MapInterface {
 
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
@@ -163,4 +166,18 @@ public class BreakDownsActivity extends AppCompatActivity implements BreakDownsL
         });
     }
 
+    @Override
+    public void sendCreateNewFailure(LatLng lng,boolean itsFromMap) {
+        Intent i = new Intent(BreakDownsActivity.this, AddEditFailureActivity.class);
+        i.putExtra("add",true);
+        i.putExtra("itsFromMap",itsFromMap);
+        i.putExtra("latlng",lng);
+        startActivity(i);
+        finish();
+    }
+
+    @Override
+    public void sendViewDatails(Failure fail,boolean itsFromMap ) {
+
+    }
 }
