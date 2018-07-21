@@ -62,6 +62,7 @@ public class UserActivity extends AppCompatActivity implements RegisterFragment.
 
     @Override
     public void login(User user) {
+        userDBManager.getSizeUser();
         if(userDBManager.getCurrentUserBoolean(user.token)){
             Intent myIntent = new Intent(UserActivity.this, BreakDownsActivity.class);
             preferenceManager.saveString(UserActivity.this,"token",user.token);

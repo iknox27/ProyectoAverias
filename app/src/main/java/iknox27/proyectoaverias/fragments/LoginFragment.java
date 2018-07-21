@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -84,6 +85,7 @@ public class LoginFragment extends Fragment {
       user.username = username.getText().toString();
       user.password = password.getText().toString();
       user.token = mActivity.utils.createkey(user.username + user.password);
+      Log.d("RegisterKey",user.token);
       loginInterface.login(user);
     }
 

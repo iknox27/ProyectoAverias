@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -83,6 +84,8 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
     Bitmap imageU;
     FailureService failureService;
     FabSpeedDial fabSpeedDial;
+    boolean isFromMap = false;
+    Location latLngFromMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,8 +102,12 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
         userDBManager.startHelper(getApplicationContext());
         preferenceManager = PreferencesManager.getInstance();
         if (getIntent().getBooleanExtra("add", true)) {
+            isFromMap = getIntent().getBooleanExtra("itsFromMap",false);
+            latLngFromMap = getIntent().getParcelableExtra("latlng");
             fab.setImageDrawable(getDrawable(R.drawable.ic_camera));
             fab.setVisibility(View.VISIBLE);
+            fabSpeedDial = (FabSpeedDial) findViewById(R.id.fabd);
+            fabSpeedDial.setVisibility(View.INVISIBLE);
             collapsingToolbarLayout.setTitle("Agregar avería");
             typeFab = 1;
             setFragment(new AddFailureFragment());
@@ -112,7 +119,13 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
             location = getIntent().getParcelableExtra("responseLoc");
             DetailsFailureFragment detailsFailureFragment = new DetailsFailureFragment();
             detailsFailureFragment.setArguments(setBundle());
-            Picasso.get().load(failure.imagen).into(image);
+            if(failure.imagen != null && !failure.imagen.equals("") ){
+                Picasso.get().load(failure.imagen).into(image);
+            }else{
+                Picasso.get().load(R.drawable.noimage).into(image);
+            }
+
+            fab.setVisibility(View.INVISIBLE);
             fabSpeedDial = (FabSpeedDial) findViewById(R.id.fabd);
             fabSpeedDial.setVisibility(View.VISIBLE);
             fabSpeedDial.setMenuListener(new FabSpeedDial.MenuListener() {
@@ -157,7 +170,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
     }
 
 
-    @OnClick(R.id.fab)
+    @OnClick(R.id.fabutton)
     public void clickFab() {
         if (typeFab == 0) {
             fab.setImageDrawable(getDrawable(R.drawable.ic_camera));
@@ -202,7 +215,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
             fOut.flush();
             fOut.close();
             Toast.makeText(getApplicationContext(),
-                    "Image has been saved in KidsPainting folder",
+                    "Imagen se guardado!",
                     Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Log.e("error in saving image", e.getMessage());
@@ -266,7 +279,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
             }
         } else {
             android.location.Location l =  utils.getLastKnownLocation(this);
-            Log.d("verLoc", l.getLatitude() + "");
+//            Log.d("verLoc", l.getLatitude() + "");
         }
     }
 
@@ -314,14 +327,15 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
                     ImageResponse imageResponse = response.body();
                     android.location.Location loc = utils.getLastKnownLocation(AddEditFailureActivity.this);
                     User u = userDBManager.getCurrentUser(preferenceManager.getStringValue(AddEditFailureActivity.this,"token"));
-                    Location location = new Location(loc.getLatitude(),loc.getLongitude());
+                    Location location = isFromMap ? latLngFromMap : new Location(loc.getLatitude(),loc.getLongitude());
                     String id = utils.createkey(date+name+type);
                     Failure f = new Failure(id,name,type,date,des,imageResponse.data.link,location,u);
                     addNewFailure(f);
+                }else{
+                    utils.hideProgress();
                 }
 
             }
-
             @Override
             public void onFailure(Call<ImageResponse> call, Throwable t) {
                 Log.d("its", "its" + t.getCause().getMessage());

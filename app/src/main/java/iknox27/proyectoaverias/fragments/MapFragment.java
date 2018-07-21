@@ -38,21 +38,24 @@ import iknox27.proyectoaverias.entities.Location;
 import iknox27.proyectoaverias.utils.Utils;
 
 
-public class MapFragment extends Fragment implements GoogleMap.OnMapLongClickListener {
+public class MapFragment extends Fragment implements GoogleMap.OnMapLongClickListener, GoogleMap.OnInfoWindowClickListener {
 
     View rootView;
     MapView mMapView;
     private GoogleMap googleMap;
     Utils utils;
     MapInterface mapInterface;
+    ArrayList<Failure> failureList;
     public MapFragment() {
         // Required empty public constructor
         utils = new Utils();
     }
 
+
+
     public interface MapInterface{
         void sendCreateNewFailure(LatLng lng,boolean itsFromMap);
-        void sendViewDatails(Failure fail,boolean itsFromMap );
+        void sendViewDatails(String id);
     }
 
     @Override
@@ -69,7 +72,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMapLongClickLis
         mMapView = (MapView) rootView.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume(); // needed to get the map to display immediately
-        final ArrayList<Failure> failureList = getArguments().getParcelableArrayList("lista");
+        failureList = getArguments().getParcelableArrayList("lista");
         try {
             MapsInitializer.initialize(Objects.requireNonNull(getActivity()).getApplicationContext());
         } catch (Exception e) {
@@ -83,11 +86,11 @@ public class MapFragment extends Fragment implements GoogleMap.OnMapLongClickLis
                 boolean success = googleMap.setMapStyle(
                         MapStyleOptions.loadRawResourceStyle(
                                 getActivity(), R.raw.style));
-                android.location.Location bestLocation = utils.getLastKnownLocation(getActivity());
-                LatLng myCuurrentLocation = new LatLng(bestLocation.getLatitude(), bestLocation.getLongitude());;
+                LatLng myCuurrentLocation = new LatLng(9.928069, -84.090725);;
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(myCuurrentLocation).zoom(10).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 googleMap.setOnMapLongClickListener(MapFragment.this);
+                googleMap.setOnInfoWindowClickListener(MapFragment.this);
                 for(int i = 0 ; i < failureList.size() ; i++) {
                     createMarker(failureList.get(i).ubicacion.getLat(), failureList.get(i).ubicacion.getLon(), failureList.get(i).nombre, failureList.get(i).descripcion, R.drawable.ic_place);
                 }
@@ -146,18 +149,22 @@ public class MapFragment extends Fragment implements GoogleMap.OnMapLongClickLis
 
     @Override
     public void onMapLongClick(final LatLng latLng) {
-        Log.d("MAPapruabn", "a");
         new MaterialDialog.Builder(getActivity())
-                .title("Crear avería")
-                .content("¿Desea crear una nueva avería en este punto?")
-                .positiveText("Crear")
-                .negativeText("Cancelar")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        mapInterface.sendCreateNewFailure(latLng,true);
-                    }
-                })
+                .title(R.string.create_failure)
+                .content(R.string.question_create)
+                .positiveText(R.string.create)
+                .negativeText(R.string.canceling)
+                .onPositive((dialog, which) -> mapInterface.sendCreateNewFailure(latLng,true))
                 .show();
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        for(int i = 0 ; i < failureList.size() ; i++) {
+           if(failureList.get(i).nombre.toLowerCase().equals(marker.getTitle().toLowerCase())){
+               mapInterface.sendViewDatails(failureList.get(i).id);
+               break;
+           }
+        }
     }
 }

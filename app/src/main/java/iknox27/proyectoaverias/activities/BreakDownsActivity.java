@@ -134,7 +134,7 @@ public class BreakDownsActivity extends AppCompatActivity implements BreakDownsL
     }
 
     public void getAllDataFromFailure(String id){
-        utils.showProgess(this,"Obteniedno datos de Avería");
+        utils.showProgess(this,"Obteniendo datos de Avería");
         failureService = ConnectionServiceManager.obtenerServicio();
         failureService.obtenerDetallesDePost(id).enqueue(new Callback<Failure>() {
             @Override
@@ -170,14 +170,16 @@ public class BreakDownsActivity extends AppCompatActivity implements BreakDownsL
     public void sendCreateNewFailure(LatLng lng,boolean itsFromMap) {
         Intent i = new Intent(BreakDownsActivity.this, AddEditFailureActivity.class);
         i.putExtra("add",true);
+
+        Location locFromMap = new Location(lng.latitude,lng.longitude);
         i.putExtra("itsFromMap",itsFromMap);
-        i.putExtra("latlng",lng);
+        i.putExtra("latlng",locFromMap);
         startActivity(i);
         finish();
     }
 
     @Override
-    public void sendViewDatails(Failure fail,boolean itsFromMap ) {
-
+    public void sendViewDatails(String id) {
+        getAllDataFromFailure(id);
     }
 }

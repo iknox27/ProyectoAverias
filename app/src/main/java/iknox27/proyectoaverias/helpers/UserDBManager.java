@@ -81,6 +81,29 @@ public class UserDBManager {
 
     }
 
+
+    public boolean getCurrentUserBooleanByUser(String user, String pass){
+        ArrayList<User> contacts = new ArrayList<User>();
+        try {
+            Dao<User, Integer> userDao = bdHelper.getUserDao();
+            contacts = (ArrayList<User>) userDao.queryForEq("username",user);
+            //Si no se encontro ningun usuario, es porque no existe
+            if(contacts.size() == 0){
+                //Toast.makeText(MainActivity.this, "Ese usuario no existe!", Toast.LENGTH_SHORT).show();
+                return false;
+            }else{
+                if(contacts.get(0).password.equals(pass))
+                    return true;
+                else
+                    return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return  false;
+        }
+
+    }
+
     public User getCurrentUser(String token){
         ArrayList<User> contacts = new ArrayList<User>();
         try {

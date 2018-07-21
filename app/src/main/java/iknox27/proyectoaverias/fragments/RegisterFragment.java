@@ -91,6 +91,7 @@ public class RegisterFragment extends Fragment {
     user.username = usernameRegister.getText().toString();
     user.password =  passwordRegister.getText().toString();
     user.token = mActivity.utils.createkey(user.username + user.password);
+    Log.d("RegisterKey",user.token);
     registerInterface.register(user);
   }
 

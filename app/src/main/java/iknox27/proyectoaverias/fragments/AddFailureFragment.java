@@ -11,6 +11,9 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -29,6 +32,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import iknox27.proyectoaverias.R;
 import iknox27.proyectoaverias.activities.AddEditFailureActivity;
+import iknox27.proyectoaverias.activities.BreakDownsActivity;
+import iknox27.proyectoaverias.activities.SplahActivity;
 import iknox27.proyectoaverias.activities.UserActivity;
 import iknox27.proyectoaverias.entities.Failure;
 
@@ -37,6 +42,7 @@ public class AddFailureFragment extends Fragment implements DatePickerDialog.OnD
     View rootView;
     FailureADDInterface interfaceAdd;
     AddEditFailureActivity addEditFailureActivity;
+    private final int HOME = 16908332;
     private static final int RESULT_OK = -1 ;
     @BindView(R.id.input_name_content)
     EditText inputNameContent;
@@ -54,7 +60,7 @@ public class AddFailureFragment extends Fragment implements DatePickerDialog.OnD
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -64,6 +70,27 @@ public class AddFailureFragment extends Fragment implements DatePickerDialog.OnD
         rootView =  inflater.inflate(R.layout.fragment_add_failure, container, false);
         ButterKnife.bind(this,rootView);
         return  rootView;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        Log.d("id", String.valueOf(item.getItemId()));
+        switch (item.getItemId()) {
+            case HOME:
+                Intent mainIntent;
+                mainIntent = new Intent(addEditFailureActivity,BreakDownsActivity.class);
+                startActivity(mainIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Do something that differs the Activity's menu here
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

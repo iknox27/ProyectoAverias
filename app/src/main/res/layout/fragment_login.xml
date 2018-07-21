@@ -82,7 +82,7 @@
                 android:layout_margin="16dp"
                 android:background="@drawable/edittext_rounded"
                 android:hint="Clave de usuario"
-                android:inputType="text"/>
+                android:inputType="textPassword"/>
 
             <RelativeLayout
                 android:layout_below="@+id/password"
@@ -98,6 +98,8 @@
                     android:layout_height="56dp"
                     android:layout_centerHorizontal="true"
                     android:text="Ingresar"
+                    android:textColor="#ddd"
+                    android:backgroundTint="@color/colorPrimaryDark"
                     />
 
                 <TextView

@@ -16,4 +16,8 @@
     <string name="crear_usuario">Crear Usuario</string>
     <string name="title_activity_maps">Map</string>
     <string name="text_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="create">Crear</string>
+    <string name="canceling">Cancelar</string>
+    <string name="create_failure">Crear avería</string>
+    <string name="question_create">¿Desea crear una nueva avería en este punto?</string>
 </resources>

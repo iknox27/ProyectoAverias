@@ -13,7 +13,7 @@ public interface ImgurService {
 
     @Multipart
     @Headers({
-            "Authorization: Client-ID d2e7df981b7f45f"
+            "Authorization: Client-ID 0b5e46b0ac7b39f"
     })
     @POST("image")
     Call<ImageResponse> postImage(

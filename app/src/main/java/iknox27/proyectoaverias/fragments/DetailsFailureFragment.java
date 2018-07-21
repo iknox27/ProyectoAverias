@@ -1,10 +1,15 @@
 package iknox27.proyectoaverias.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -12,6 +17,8 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import iknox27.proyectoaverias.R;
+import iknox27.proyectoaverias.activities.AddEditFailureActivity;
+import iknox27.proyectoaverias.activities.BreakDownsActivity;
 import iknox27.proyectoaverias.entities.Failure;
 import iknox27.proyectoaverias.entities.Location;
 import iknox27.proyectoaverias.entities.User;
@@ -21,6 +28,8 @@ public class DetailsFailureFragment extends Fragment {
 
     View rootView;
     Failure failure;
+    AddEditFailureActivity addEditFailureActivity;
+    private final int HOME = 16908332;
     @BindView(R.id.txtTitle)
     TextView txtTitle;
     @BindView(R.id.txt_type_change)
@@ -41,7 +50,7 @@ public class DetailsFailureFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -67,9 +76,9 @@ public class DetailsFailureFragment extends Fragment {
 
     @Override
     public void onAttach(Context context) {
-
         super.onAttach(context);
         prueba = (InterfacePrueba) context;
+        addEditFailureActivity = (AddEditFailureActivity) getActivity();
     }
 
     @Override
@@ -79,6 +88,27 @@ public class DetailsFailureFragment extends Fragment {
 
     public  interface  InterfacePrueba{
         void a();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        Log.d("id", String.valueOf(item.getItemId()));
+        switch (item.getItemId()) {
+            case HOME:
+                Intent mainIntent;
+                mainIntent = new Intent(addEditFailureActivity,BreakDownsActivity.class);
+                startActivity(mainIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Do something that differs the Activity's menu here
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
 }
