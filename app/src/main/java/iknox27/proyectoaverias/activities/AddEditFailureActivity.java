@@ -62,7 +62,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddEditFailureActivity extends AppCompatActivity implements DetailsFailureFragment.InterfacePrueba, AddFailureFragment.FailureADDInterface {
+public class AddEditFailureActivity extends AppCompatActivity implements  AddFailureFragment.FailureADDInterface {
     private CollapsingToolbarLayout collapsingToolbarLayout;
     Failure failure;
     User user;
@@ -163,10 +163,8 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
             });
             setFragment(detailsFailureFragment);
             collapsingToolbarLayout.setTitle(failure.nombre);
-            //fab.setVisibility(View.VISIBLE);
             typeFab = 0;
         }
-
         dynamicToolbarColor();
         toolbarTextAppernce();
     }
@@ -191,7 +189,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
         if (resultCode == RESULT_OK) {
             this.returnUri = data.getData();
             imageU = (Bitmap) data.getExtras().get("data");
-            saveImaged();
+            saveImage();
             setImage(imageU);
         }
     }
@@ -241,13 +239,9 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
     private void dynamicToolbarColor() {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
                 R.drawable.slider3);
-        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-
-            @Override
-            public void onGenerated(Palette palette) {
-                collapsingToolbarLayout.setContentScrimColor(palette.getMutedColor(R.attr.colorPrimary));
-                collapsingToolbarLayout.setStatusBarScrimColor(palette.getMutedColor(R.attr.colorPrimaryDark));
-            }
+        Palette.from(bitmap).generate(palette -> {
+            collapsingToolbarLayout.setContentScrimColor(palette.getMutedColor(R.attr.colorPrimary));
+            collapsingToolbarLayout.setStatusBarScrimColor(palette.getMutedColor(R.attr.colorPrimaryDark));
         });
     }
 
@@ -297,28 +291,12 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
         return b;
     }
 
-    public Fragment getVisibleFragment(){
-        FragmentManager fragmentManager = AddEditFailureActivity.this.getSupportFragmentManager();
-        List<Fragment> fragments = fragmentManager.getFragments();
-        if(fragments != null){
-            for(Fragment fragment : fragments){
-                if(fragment != null && fragment.isVisible())
-                    return fragment;
-            }
-        }
-        return null;
-    }
     public void setImage(Bitmap imageFromCamera){
         image.setImageBitmap(imageFromCamera);
     }
 
     @Override
-    public void a() {
-
-    }
-
-    @Override
-    public void addI(final String name, final String type ,final String des, final String date) {
+    public void addFailure(final String name, final String type ,final String des, final String date) {
         utils.showProgess(this,"Creando Avería");
         imgurService = ConnectionImgurManager.obtenerServicio();
         imgurService.postImage(name,des,"","",MultipartBody.Part.createFormData(
@@ -416,7 +394,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
         });
     }
 
-    public void  saveImaged() {
+    public void  saveImage() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (utils.verifyPermissions(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
                 saveBitmap(imageU);

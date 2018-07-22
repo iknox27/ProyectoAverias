@@ -26,7 +26,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustResize">
-        <activity android:name=".activities.DetailsActivity" />
         <activity
             android:name=".activities.SplahActivity"
             android:theme="@style/NoActionBar">

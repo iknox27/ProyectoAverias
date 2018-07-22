@@ -43,7 +43,7 @@ public class AddFailureFragment extends Fragment implements DatePickerDialog.OnD
     FailureADDInterface interfaceAdd;
     AddEditFailureActivity addEditFailureActivity;
     private final int HOME = 16908332;
-    private static final int RESULT_OK = -1 ;
+
     @BindView(R.id.input_name_content)
     EditText inputNameContent;
     @BindView(R.id.input_type_content)
@@ -89,7 +89,6 @@ public class AddFailureFragment extends Fragment implements DatePickerDialog.OnD
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // Do something that differs the Activity's menu here
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -115,18 +114,18 @@ public class AddFailureFragment extends Fragment implements DatePickerDialog.OnD
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        myDate = dayOfMonth + "-" + monthOfYear + "-" + year;
+        myDate = dayOfMonth + "/" + monthOfYear + "/" + year;
         txt_date_change.setText(myDate);
     }
 
     @OnClick(R.id.addFailure)
     public void add(){
-        interfaceAdd.addI(inputNameContent.getText().toString(),
+        interfaceAdd.addFailure(inputNameContent.getText().toString(),
                 inputLayoutTypeContent.getText().toString(),
                 inputlayoutDescriptionContent.getText().toString(),myDate);
     }
 
     public interface FailureADDInterface{
-        void addI(String name, String type ,String des, String date);
+        void addFailure(String name, String type ,String des, String date);
     }
 }
