@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.support.design.internal.NavigationMenu;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -69,6 +70,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
     int typeFab;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    public static final int MY_WRITE_LOCATION = 98;
     private static final int EDIT_DATA = 2131230745;
     private static final int DELETE_DATA = 2131230743;
     public Utils utils;
@@ -189,7 +191,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
         if (resultCode == RESULT_OK) {
             this.returnUri = data.getData();
             imageU = (Bitmap) data.getExtras().get("data");
-            saveBitmap(imageU);
+            saveImaged();
             setImage(imageU);
         }
     }
@@ -230,6 +232,10 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
 
         if (requestCode == MY_PERMISSIONS_REQUEST_LOCATION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
+        }
+
+        if(requestCode == MY_WRITE_LOCATION && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            saveBitmap(imageU);
         }
     }
     private void dynamicToolbarColor() {
@@ -408,5 +414,16 @@ public class AddEditFailureActivity extends AppCompatActivity implements Details
                         "Error al eliminar la avería", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void  saveImaged() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (utils.verifyPermissions(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+                saveBitmap(imageU);
+            else
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_WRITE_LOCATION);
+        } else {
+            saveBitmap(imageU);
+        }
     }
 }

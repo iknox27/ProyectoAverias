@@ -18,6 +18,7 @@ import butterknife.OnClick;
 import iknox27.proyectoaverias.R;
 import iknox27.proyectoaverias.activities.UserActivity;
 import iknox27.proyectoaverias.entities.User;
+import iknox27.proyectoaverias.utils.TextWatcher;
 
 public class RegisterFragment extends Fragment {
 
@@ -56,6 +57,7 @@ public class RegisterFragment extends Fragment {
     // Inflate the layout for this fragment
     rootView =  inflater.inflate(R.layout.fragment_register, container, false);
     ButterKnife.bind(this,rootView);
+    email.addTextChangedListener(new TextWatcher(mActivity,email,1));
     mActivity.getSupportActionBar().show();
     mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     mActivity.getSupportActionBar().setDisplayShowHomeEnabled(true);
