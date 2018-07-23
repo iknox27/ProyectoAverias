@@ -67,7 +67,7 @@ public class DetailsFailureFragment extends Fragment {
                     txt_date_change.setText(failure.fecha);
             txt_user_change.setText(user.nombre);
                     txt_description_change.setText(failure.descripcion);
-         txt_location_change.setText("Latitud: " + location.getLat() +" Longitud: " + location.getLon());
+         txt_location_change.setText("Latitud: " + location.getLat() +"\n Longitud: " + location.getLon());
         }
         return rootView;
     }

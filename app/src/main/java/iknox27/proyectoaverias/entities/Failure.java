@@ -13,7 +13,7 @@ public class Failure implements Parcelable {
     public String fecha;
     public String descripcion;
     public String imagen;
-    public Location ubicacion;
+    private Location ubicacion;
 
     public Failure(String id,String nombre,String tipo,String fecha,String descripcion, String imagen, Location location, User u){
         this.id = id;
@@ -22,7 +22,7 @@ public class Failure implements Parcelable {
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.imagen = imagen;
-        this.ubicacion = new Location(location.getLat(),location.getLon());
+        this.setUbicacion(new Location(location.getLat(),location.getLon()));
         if(u!= null)
             this.usuario = u;
         else
@@ -71,5 +71,13 @@ public class Failure implements Parcelable {
         parcel.writeString(fecha);
         parcel.writeString(descripcion);
         parcel.writeString(imagen);
+    }
+
+    public Location getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(Location ubicacion) {
+        this.ubicacion = ubicacion;
     }
 }

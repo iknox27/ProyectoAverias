@@ -1,19 +1,12 @@
 package iknox27.proyectoaverias.fragments;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,13 +21,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import butterknife.ButterKnife;
 import iknox27.proyectoaverias.R;
 import iknox27.proyectoaverias.entities.Failure;
-import iknox27.proyectoaverias.entities.Location;
 import iknox27.proyectoaverias.utils.Utils;
 
 
@@ -92,7 +83,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMapLongClickLis
                 googleMap.setOnMapLongClickListener(MapFragment.this);
                 googleMap.setOnInfoWindowClickListener(MapFragment.this);
                 for(int i = 0 ; i < failureList.size() ; i++) {
-                    createMarker(failureList.get(i).ubicacion.getLat(), failureList.get(i).ubicacion.getLon(), failureList.get(i).nombre, failureList.get(i).descripcion, R.drawable.ic_place);
+                    createMarker(failureList.get(i).getUbicacion().getLat(), failureList.get(i).getUbicacion().getLon(), failureList.get(i).nombre, failureList.get(i).descripcion, R.drawable.ic_place);
                 }
 
             }

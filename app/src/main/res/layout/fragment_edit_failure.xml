@@ -1,14 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.EditFailureFragment">
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_name_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true">
 
-</FrameLayout>
+        <EditText
+            android:id="@+id/input_name_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:hint="Nombre" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_type_content"
+        android:layout_below="@+id/input_layout_name_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true">
+
+        <EditText
+            android:id="@+id/input_type_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tipo" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_description_content"
+        android:layout_below="@+id/input_layout_type_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true">
+
+        <EditText
+            android:id="@+id/input_description_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Descripción" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/date_edit"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/input_layout_description_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/txt_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fecha"
+            android:textSize="18sp"
+            android:textColor="#000"
+            android:paddingBottom="5dp"
+            />
+
+        <TextView
+            android:layout_below="@+id/txt12"
+            android:id="@+id/txt_date_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Escoja la fecha"
+            android:textColor="#A9A9A9"
+            android:textSize="16sp"
+            android:paddingBottom="16dp"
+            />
+    </LinearLayout>
+
+
+
+    <Button
+        android:id="@+id/edit_failure"
+        android:layout_below="@+id/date_edit"
+        android:layout_width="160dp"
+        android:layout_height="56dp"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:text="Editar"
+        android:background="@color/colorAccent"
+        android:textColor="#fff"
+        />
+
+</RelativeLayout>

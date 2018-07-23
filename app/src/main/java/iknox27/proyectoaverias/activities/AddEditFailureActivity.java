@@ -62,7 +62,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddEditFailureActivity extends AppCompatActivity implements  AddFailureFragment.FailureADDInterface {
+public class AddEditFailureActivity extends AppCompatActivity implements  AddFailureFragment.FailureADDInterface, EditFailureFragment.EditInterface {
     private CollapsingToolbarLayout collapsingToolbarLayout;
     Failure failure;
     User user;
@@ -283,7 +283,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
         }
     }
 
-    private Bundle setBundle(){
+    public Bundle setBundle(){
         Bundle b = new Bundle();
         b.putParcelable("fail",failure);
         b.putParcelable("responseUser",user);
@@ -403,5 +403,20 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
         } else {
             saveBitmap(imageU);
         }
+    }
+
+    @Override
+    public void editFailure(String id, Failure failureEdited) {
+
+    }
+
+
+    public void setDataFromDit(){
+        DetailsFailureFragment detailsFailureFragment = new DetailsFailureFragment();
+        detailsFailureFragment.setArguments(setBundle());
+        collapsingToolbarLayout.setTitle(failure.nombre);
+        fab.setVisibility(View.INVISIBLE);
+        fabSpeedDial.setVisibility(View.VISIBLE);
+        setFragment(detailsFailureFragment);
     }
 }
