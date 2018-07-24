@@ -57,7 +57,12 @@ public class RegisterFragment extends Fragment {
     // Inflate the layout for this fragment
     rootView =  inflater.inflate(R.layout.fragment_register, container, false);
     ButterKnife.bind(this,rootView);
+
     email.addTextChangedListener(new TextWatcher(mActivity,email,1));
+    phoneNumber.addTextChangedListener(new TextWatcher(mActivity,phoneNumber,2));
+    userid.addTextChangedListener(new TextWatcher(mActivity,userid,3));
+    usernameRegister.addTextChangedListener(new TextWatcher(mActivity,usernameRegister,4));
+
     mActivity.getSupportActionBar().show();
     mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     mActivity.getSupportActionBar().setDisplayShowHomeEnabled(true);

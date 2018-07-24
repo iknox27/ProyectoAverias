@@ -65,7 +65,7 @@ public class UserActivity extends AppCompatActivity implements RegisterFragment.
         userDBManager.getSizeUser();
         if(userDBManager.getCurrentUserBoolean(user.token)){
             Intent myIntent = new Intent(UserActivity.this, BreakDownsActivity.class);
-            preferenceManager.saveString(UserActivity.this,"token",user.token);
+            preferenceManager.saveString(UserActivity.this,"rememberUssr",user.token);
             //myIntent.putExtra("key", value); //Optional parameters
             startActivity(myIntent);
             finish();
@@ -73,5 +73,9 @@ public class UserActivity extends AppCompatActivity implements RegisterFragment.
             Toast.makeText(this,
                     "Usuario o clave incorrectos", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public boolean getExiste(String username){
+      return userDBManager.validateExistsUser(username);
     }
 }

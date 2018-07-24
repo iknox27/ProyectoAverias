@@ -122,6 +122,22 @@ public class UserDBManager {
         }
     }
 
+    public boolean validateExistsUser(String usermname){
+        ArrayList<User> contacts = new ArrayList<User>();
+        try {
+            Dao<User, Integer> userDao = bdHelper.getUserDao();
+            contacts = (ArrayList<User>) userDao.queryForEq("token",usermname);
+            if(contacts.size() > 0){
+                return false;
+            }else{
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return  true;
+        }
+
+    }
 
 
     public boolean saveUser(User c){

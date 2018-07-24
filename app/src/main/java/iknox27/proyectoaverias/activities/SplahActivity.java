@@ -19,7 +19,7 @@ public class SplahActivity extends AppCompatActivity {
     new Handler().postDelayed(new Runnable(){
       @Override
       public void run() {
-        String token = preferencesManager.getStringValue(getApplicationContext(),"token");
+        String token = preferencesManager.getStringValue(SplahActivity.this,"rememberUssr");
         Intent mainIntent;
         if(token.equals("")){
           mainIntent = new Intent(SplahActivity.this,UserActivity.class);
