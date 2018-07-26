@@ -15,6 +15,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
+import java.util.Calendar;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -27,7 +31,7 @@ import iknox27.proyectoaverias.entities.Location;
 import iknox27.proyectoaverias.entities.User;
 
 
-public class EditFailureFragment extends Fragment {
+public class EditFailureFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
 
     View rootView;
@@ -37,7 +41,7 @@ public class EditFailureFragment extends Fragment {
     Failure failure;
     User user;
     Location location;
-
+    String myDate;
     @BindView(R.id.input_name_edit)
     EditText inputNameEdit;
     @BindView(R.id.input_type_edit)
@@ -47,14 +51,18 @@ public class EditFailureFragment extends Fragment {
     @BindView(R.id.txt_date_edit)
     TextView txtDateEdit;
 
-    String myDate;
-
     public EditFailureFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        myDate = dayOfMonth + "/" + monthOfYear + "/" + year;
+        txtDateEdit.setText(myDate);
+    }
+
     public  interface  EditInterface{
-        void editFailure(String id, Failure failureEdited);
+        void editFailure(Failure failureEdited);
     }
 
     @Override
@@ -77,6 +85,7 @@ public class EditFailureFragment extends Fragment {
             inputlayoutDescriptionEdit.setText(failure.descripcion);
             inputLayoutTypeEdit.setText(failure.tipo);
             txtDateEdit.setText(failure.fecha);
+            myDate = failure.fecha;
             failure.setUsuario(user);
             failure.setUbicacion(location);
         }
@@ -106,9 +115,25 @@ public class EditFailureFragment extends Fragment {
         editInterface = (EditInterface)context;
     }
 
+    @OnClick(R.id.date_edit)
+    public void dateChange(){
+        Calendar now = Calendar.getInstance();
+        DatePickerDialog dpd = DatePickerDialog.newInstance(
+                EditFailureFragment.this,
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH)
+        );
+        dpd.show(addEditFailureActivity.getFragmentManager(), "Datepickerdialog");
+    }
+
     @OnClick(R.id.edit_failure)
     public void editFailure(){
-        editInterface.editFailure("sd",failure);
+        failure.nombre = inputNameEdit.getText().toString();
+        failure.descripcion = inputlayoutDescriptionEdit.getText().toString();
+        failure.tipo = inputLayoutTypeEdit.getText().toString();
+        failure.fecha = txtDateEdit.getText().toString();
+        editInterface.editFailure(failure);
     }
 
 }

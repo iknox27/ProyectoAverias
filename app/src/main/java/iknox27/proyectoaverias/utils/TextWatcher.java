@@ -33,10 +33,11 @@ public class TextWatcher implements android.text.TextWatcher {
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         switch (id){
-            case 1 : isValidEmail(charSequence.toString()); break;
+            case 1 : validateEmail(charSequence.toString()); break;
             case 2 : validateNumber(charSequence.toString()); break;
             case 3 : validateCardID(charSequence.toString()); break;
             case 4 : validateUsername(charSequence.toString()); break;
+            case 5 : validatePassword(charSequence.toString()); break;
         }
     }
 
@@ -44,7 +45,7 @@ public class TextWatcher implements android.text.TextWatcher {
     public void afterTextChanged(Editable editable) {
     }
 
-    public void  isValidEmail(CharSequence target) {
+    public void  validateEmail(CharSequence target) {
         if(!TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches()){
             editText.setBackground(activity.getDrawable(R.drawable.edittext_rounded));
         }else{
@@ -88,6 +89,15 @@ public class TextWatcher implements android.text.TextWatcher {
                 editText.setBackground(activity.getDrawable(R.drawable.edittext_rounded_error));
             }
         }
+    }
+
+    public void validatePassword(CharSequence target){
+            if(target.length() < 8){
+                editText.setBackground(activity.getDrawable(R.drawable.edittext_rounded_error));
+            }else{
+                editText.setBackground(activity.getDrawable(R.drawable.edittext_rounded));
+            }
+
     }
 
 }

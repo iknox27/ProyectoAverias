@@ -88,6 +88,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
     FabSpeedDial fabSpeedDial;
     boolean isFromMap = false;
     Location latLngFromMap;
+    boolean hasChangedImage = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,6 +148,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
                             EditFailureFragment editFailureFragment = new EditFailureFragment();
                             editFailureFragment.setArguments(setBundle());
                             setFragment(editFailureFragment);
+                            typeFab = 1;
                             break;
                         case DELETE_DATA :
                             askToDetele();
@@ -216,7 +218,9 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
             fOut.close();
             Toast.makeText(getApplicationContext(),
                     "Imagen se guardado!",
+
                     Toast.LENGTH_LONG).show();
+            hasChangedImage = true;
         } catch (Exception e) {
             Log.e("error in saving image", e.getMessage());
         }
@@ -236,6 +240,8 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
             saveBitmap(imageU);
         }
     }
+
+
     private void dynamicToolbarColor() {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
                 R.drawable.slider3);
@@ -298,8 +304,23 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
     @Override
     public void addFailure(final String name, final String type ,final String des, final String date) {
         utils.showProgess(this,"Creando Avería");
+        android.location.Location loc = utils.getLastKnownLocation(AddEditFailureActivity.this);
+        User u = userDBManager.getCurrentUser(preferenceManager.getStringValue(AddEditFailureActivity.this,"token"));
+        Location location = isFromMap ? latLngFromMap : new Location(loc.getLatitude(),loc.getLongitude());
+        String id = utils.createkey(date+name+type);
+        Failure fail = new Failure(id,name,type,date,des,"",location,u);
+        if(!hasChangedImage){
+            addNewFailure(fail);
+        }
+        else{
+            uploadImage(fail,1);
+        }
+
+    }
+
+    private void uploadImage(Failure f, int whereTo){
         imgurService = ConnectionImgurManager.obtenerServicio();
-        imgurService.postImage(name,des,"","",MultipartBody.Part.createFormData(
+        imgurService.postImage(f.nombre,f.descripcion,"","",MultipartBody.Part.createFormData(
                 "image",
                 chosenFile.getName(),
                 RequestBody.create(MediaType.parse("image/*"), chosenFile)
@@ -309,16 +330,16 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
                 Log.d("its", "its" + response.isSuccessful());
                 if(response.isSuccessful()){
                     ImageResponse imageResponse = response.body();
-                    android.location.Location loc = utils.getLastKnownLocation(AddEditFailureActivity.this);
-                    User u = userDBManager.getCurrentUser(preferenceManager.getStringValue(AddEditFailureActivity.this,"token"));
-                    Location location = isFromMap ? latLngFromMap : new Location(loc.getLatitude(),loc.getLongitude());
-                    String id = utils.createkey(date+name+type);
-                    Failure f = new Failure(id,name,type,date,des,imageResponse.data.link,location,u);
-                    addNewFailure(f);
+                    if(imageResponse != null){
+                        f.imagen = imageResponse.data.link;
+                    }
+                    switch (whereTo){
+                        case 1 : addNewFailure(f);  break;
+                        case 2 : editCurrentFailure(f);  break;
+                    }
                 }else{
                     utils.hideProgress();
                 }
-
             }
             @Override
             public void onFailure(Call<ImageResponse> call, Throwable t) {
@@ -336,6 +357,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
                 if(response.isSuccessful() && response.code() == 200){
                     Toast.makeText(getApplicationContext(),
                             "Avería creada exitosamente", Toast.LENGTH_LONG).show();
+
                     Intent i = new Intent(AddEditFailureActivity.this, BreakDownsActivity.class);
                     startActivity(i);
                     finish();
@@ -360,12 +382,9 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
                 .content("Desea eliminar la averia"+ failure.nombre)
                 .positiveText("Aceptar")
                 .negativeText("Cancelar")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(MaterialDialog dialog, DialogAction which) {
-                        utils.showProgess(AddEditFailureActivity.this,"Eliminando avería");
-                        deleteFailure(failure.id);
-                    }
+                .onPositive((dialog, which) -> {
+                    utils.showProgess(AddEditFailureActivity.this,"Eliminando avería");
+                    deleteFailure(failure.id);
                 })
                 .show();
     }
@@ -406,8 +425,37 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
     }
 
     @Override
-    public void editFailure(String id, Failure failureEdited) {
+    public void editFailure(Failure failureEdited) {
+        utils.showProgess(this,"Editando Avería");
+        if(!hasChangedImage){
+            editCurrentFailure(failureEdited);
+        }else{
+            uploadImage(failureEdited,2);
+        }
+    }
 
+    private void editCurrentFailure(Failure failureEdited){
+        failureService.editarAveriaPorId(failureEdited.id,failureEdited).enqueue(new Callback<Failure>() {
+            @Override
+            public void onResponse(Call<Failure> call, Response<Failure> response) {
+                utils.hideProgress();
+                if(response.isSuccessful() && response.code() == 200){
+                    Toast.makeText(getApplicationContext(),
+                            "Avería editada exitosamente", Toast.LENGTH_LONG).show();
+
+                    Intent i = new Intent(AddEditFailureActivity.this, BreakDownsActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Failure> call, Throwable t) {
+                utils.hideProgress();
+                Toast.makeText(getApplicationContext(),
+                        "Error al editar la avería", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 

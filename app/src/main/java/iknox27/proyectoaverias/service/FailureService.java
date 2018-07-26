@@ -29,8 +29,8 @@ public interface FailureService {
 
 
     @Headers({"Accept: application/json", API_KEY})
-    @POST("/averias/{id}")
-    Call<Failure> crearAveriaPorId(@Path("id") String id, @Body Failure post);
+    @POST("averias/{id}")
+    Call<Failure> editarAveriaPorId(@Path("id") String id, @Body Failure post);
 
     @Headers({"Accept: application/json", API_KEY})
     @DELETE("averias/{id}")
