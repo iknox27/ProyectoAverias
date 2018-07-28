@@ -340,12 +340,14 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
                 }else{
                     utils.hideProgress();
                     Toast.makeText(getApplicationContext(),
-                            "Ha ocurrido un error, intente mas tarde", Toast.LENGTH_LONG).show();
+                            "Ha ocurrido un error subiendo la imagen, intente mas tarde", Toast.LENGTH_LONG).show();
                 }
             }
             @Override
             public void onFailure(Call<ImageResponse> call, Throwable t) {
                 Log.d("its", "its" + t.getCause().getMessage());
+                Toast.makeText(getApplicationContext(),
+                        "Ha ocurrido un error subiendo la imagen, intente mas tarde", Toast.LENGTH_LONG).show();
                 utils.hideProgress();
             }
         });
@@ -365,7 +367,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
                     finish();
                 }else{
                     Toast.makeText(getApplicationContext(),
-                            "Ha ocurrido un error, intente mas tarde", Toast.LENGTH_LONG).show();
+                            "Ha ocurrido un error agregando la averia, intente mas tarde", Toast.LENGTH_LONG).show();
                 }
                 Log.d("respone", "respone" + response.isSuccessful());
             }
@@ -374,7 +376,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
             public void onFailure(Call<Failure> call, Throwable t) {
                 utils.hideProgress();
                 Toast.makeText(getApplicationContext(),
-                        "Error al crear la avería", Toast.LENGTH_LONG).show();
+                        "Ha ocurrido un error agregando la averia, intente mas tarde", Toast.LENGTH_LONG).show();
                 Log.d("fail", "fail" + t.getCause().getMessage());
             }
         });
@@ -409,7 +411,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
                 }else{
                     utils.hideProgress();
                     Toast.makeText(getApplicationContext(),
-                            "Ha ocurrido un error, intente mas tarde", Toast.LENGTH_LONG).show();
+                            "Ha ocurrido un error eliminando la averia, intente mas tarde", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -417,7 +419,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
             public void onFailure(Call<Failure> call, Throwable t) {
                 utils.hideProgress();
                 Toast.makeText(getApplicationContext(),
-                        "Error al eliminar la avería", Toast.LENGTH_LONG).show();
+                        "Ha ocurrido un error eliminando la averia, intente mas tarde", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -457,7 +459,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
                     finish();
                 }else{
                     Toast.makeText(getApplicationContext(),
-                            "Ha ocurrido un error, intente mas tarde", Toast.LENGTH_LONG).show();
+                            "Ha ocurrido un error editando la averia, intente mas tarde", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -465,7 +467,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
             public void onFailure(Call<Failure> call, Throwable t) {
                 utils.hideProgress();
                 Toast.makeText(getApplicationContext(),
-                        "Error al editar la avería", Toast.LENGTH_LONG).show();
+                        "Ha ocurrido un error editando la averia, intente mas tarde", Toast.LENGTH_LONG).show();
             }
         });
     }

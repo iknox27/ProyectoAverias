@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -116,10 +117,16 @@ public class BreakDownsActivity extends AppCompatActivity implements BreakDownsL
         failureService.obtenerListaDeAverias().enqueue(new Callback<List<Failure>>() {
             @Override
             public void onResponse(@NonNull Call<List<Failure>> call, Response<List<Failure>> response) {
-                array = (ArrayList<Failure>) response.body();
-                b.putParcelableArrayList("lista", array);
-                initTab();
-                initPager();
+                if(response.isSuccessful() && response.code() == 200){
+                    array = (ArrayList<Failure>) response.body();
+                    b.putParcelableArrayList("lista", array);
+                    initTab();
+                    initPager();
+                }else{
+                    Toast.makeText(getApplicationContext(),
+                            "Ha ocurrido un error obteniendo datos de la averia, intente mas tarde", Toast.LENGTH_LONG).show();
+                }
+
                 utils.hideProgress();
             }
 
@@ -127,6 +134,8 @@ public class BreakDownsActivity extends AppCompatActivity implements BreakDownsL
             public void onFailure(Call<List<Failure>> call, Throwable t) {
                 Log.d("malqq","mal");
                 utils.hideProgress();
+                Toast.makeText(getApplicationContext(),
+                        "Ha ocurrido un error obteniendo datos de la averia, intente mas tarde", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -137,7 +146,7 @@ public class BreakDownsActivity extends AppCompatActivity implements BreakDownsL
         failureService.obtenerDetallesDePost(id).enqueue(new Callback<Failure>() {
             @Override
             public void onResponse(Call<Failure> call, Response<Failure> response) {
-                if(response.isSuccessful()){
+                if(response.isSuccessful() && response.code() == 200){
                     Intent i = new Intent(BreakDownsActivity.this, AddEditFailureActivity.class);
                     i.putExtra("add",false);
                     Bundle b = new Bundle();
@@ -153,13 +162,17 @@ public class BreakDownsActivity extends AppCompatActivity implements BreakDownsL
                 }else{
                     Log.d("mal","mal");
                     utils.hideProgress();
+                    Toast.makeText(getApplicationContext(),
+                            "Ha ocurrido un error obteniendo datos de la averia, intente mas tarde", Toast.LENGTH_LONG).show();
                 }
 
             }
 
             @Override
             public void onFailure(Call<Failure> call, Throwable t) {
-
+                utils.hideProgress();
+                Toast.makeText(getApplicationContext(),
+                        "Ha ocurrido un error obteniendo datos de la averia, intente mas tarde", Toast.LENGTH_LONG).show();
             }
         });
     }
