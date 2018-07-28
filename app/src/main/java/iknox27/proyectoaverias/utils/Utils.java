@@ -7,6 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -14,6 +17,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Base64;
+import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -113,5 +117,11 @@ public class Utils {
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
+    }
+
+    public void setError(EditText editText){
+        Drawable drawable = editText.getBackground();
+        drawable.setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+        editText.setBackground(drawable);
     }
 }

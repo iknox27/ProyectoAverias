@@ -2,9 +2,13 @@ package iknox27.proyectoaverias.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -64,10 +68,10 @@ public class DetailsFailureFragment extends Fragment {
         if(failure != null){
             txtTitle.setText(failure.id);
             txt_type_change.setText(failure.tipo);
-                    txt_date_change.setText(failure.fecha);
-            txt_user_change.setText(user.nombre);
-                    txt_description_change.setText(failure.descripcion);
-         txt_location_change.setText("Latitud: " + location.getLat() +"\n Longitud: " + location.getLon());
+            txt_date_change.setText(failure.fecha);
+            txt_user_change.setText(makeUserString(user));
+            txt_description_change.setText(failure.descripcion);
+            txt_location_change.setText(makeLocationString(location));
         }
         return rootView;
     }
@@ -105,5 +109,25 @@ public class DetailsFailureFragment extends Fragment {
         // Do something that differs the Activity's menu here
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+    private String makeUserString(User user){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Nombre: ").append(user.nombre).append("\r\n");
+        stringBuilder.append("Email: ").append(user.correo).append("\r\n");
+        stringBuilder.append("Teléfono: ").append(user.tel).append("\r\n");
+        return stringBuilder.toString();
+    }
+
+    private String makeLocationString(Location location){
+        SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
+        SpannableString latLo = new SpannableString("Latitud: ");
+        SpannableString lonLo = new SpannableString("Longitud: ");
+        latLo.setSpan(new StyleSpan(Typeface.BOLD), 0, latLo.length(), 0);
+        lonLo.setSpan(new StyleSpan(Typeface.BOLD), 0, lonLo.length(), 0);
+        stringBuilder.append(latLo).append(location.getLat()+"\n");
+        stringBuilder.append(lonLo).append(location.getLon()+"\n");
+        return stringBuilder.toString();
+    }
+
 
 }

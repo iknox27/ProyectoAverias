@@ -8,9 +8,8 @@
     tools:context=".activities.SettingsActivity">
 
     <LinearLayout
-        android:id="@+id/date_edit"
+        android:id="@+id/layout_sign_out"
         android:layout_marginTop="16dp"
-        android:layout_below="@+id/input_layout_description_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">

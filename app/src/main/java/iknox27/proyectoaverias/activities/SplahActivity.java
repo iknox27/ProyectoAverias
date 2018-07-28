@@ -16,19 +16,16 @@ public class SplahActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_splah);
     preferencesManager = PreferencesManager.getInstance();
-    new Handler().postDelayed(new Runnable(){
-      @Override
-      public void run() {
-        String token = preferencesManager.getStringValue(SplahActivity.this,"rememberUssr");
-        Intent mainIntent;
-        if(token.equals("")){
-          mainIntent = new Intent(SplahActivity.this,UserActivity.class);
-        }else{
-          mainIntent = new Intent(SplahActivity.this,BreakDownsActivity.class);
-        }
-        startActivity(mainIntent);
-        finish();
+    new Handler().postDelayed(() -> {
+      String token = preferencesManager.getStringValue(SplahActivity.this,"rememberUssr");
+      Intent mainIntent;
+      if(token.equals("")){
+        mainIntent = new Intent(SplahActivity.this,UserActivity.class);
+      }else{
+        mainIntent = new Intent(SplahActivity.this,BreakDownsActivity.class);
       }
+      startActivity(mainIntent);
+      finish();
     }, SPLASH_DISPLAY_LENGTH);
   }
 }

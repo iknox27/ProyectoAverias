@@ -160,7 +160,7 @@
             android:layout_height="56dp"
             android:layout_centerHorizontal="true"
             android:background="@color/colorPrimaryDark"
-            android:textColor="#fff"
+            android:textColor="@color/whiteColor"
             android:text="@string/crear_usuario"
             />
 

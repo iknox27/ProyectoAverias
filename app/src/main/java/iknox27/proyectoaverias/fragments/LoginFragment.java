@@ -29,6 +29,7 @@ import butterknife.OnClick;
 import iknox27.proyectoaverias.R;
 import iknox27.proyectoaverias.activities.UserActivity;
 import iknox27.proyectoaverias.entities.User;
+import iknox27.proyectoaverias.utils.TextWatcher;
 
 
 public class LoginFragment extends Fragment {
@@ -44,6 +45,11 @@ public class LoginFragment extends Fragment {
     EditText password;
   @BindView(R.id.textNotRegister)
   TextView txt;
+
+  @BindView(R.id.username_text_error)
+  TextView usernameRegisterTextError;
+  @BindView(R.id.password_text_error)
+  TextView passwordRegisterTextError;
 
   public LoginFragment() {
     // Required empty public constructor
@@ -64,6 +70,9 @@ public class LoginFragment extends Fragment {
     ButterKnife.bind(this,rootView);
     mActivity.getSupportActionBar().hide();
     setCarouselView();
+    password.addTextChangedListener(new TextWatcher(mActivity,password,passwordRegisterTextError,5));
+    username.addTextChangedListener(new TextWatcher(mActivity,username,usernameRegisterTextError,7));
+
     return rootView;
   }
 
@@ -81,6 +90,7 @@ public class LoginFragment extends Fragment {
 
     @OnClick(R.id.loginUser)
     public void login(){
+    if(validateLogin()){
       User user = new User();
       user.username = username.getText().toString();
       user.password = password.getText().toString();
@@ -88,12 +98,9 @@ public class LoginFragment extends Fragment {
       Log.d("RegisterKey",user.token);
       loginInterface.login(user);
     }
+    }
 
-  ImageListener imageListener = new ImageListener() {
-        @Override
-        public void setImageForPosition(int position, ImageView imageView) {
-            imageView.setImageResource(sampleImages[position]);
-        }};
+  ImageListener imageListener = (position, imageView) -> imageView.setImageResource(sampleImages[position]);
 
   public interface LoginInterface{
     void login(User user);
@@ -105,4 +112,22 @@ public class LoginFragment extends Fragment {
       carouselView.setIndicatorVisibility(View.INVISIBLE);
       carouselView.setImageListener(imageListener);
   }
+
+  private boolean validateLogin(){
+    boolean hasvalidForm = true;
+    if(username.getText().length() == 0){
+      hasvalidForm = false;
+      username.setBackground(mActivity.getDrawable(R.drawable.edittext_rounded_error));
+      usernameRegisterTextError.setText(mActivity.getResources().getString(R.string.required));
+      usernameRegisterTextError.setVisibility(View.VISIBLE);
+    }
+    if (password.getText().length() == 0){
+      hasvalidForm = false;
+      password.setBackground(mActivity.getDrawable(R.drawable.edittext_rounded_error));
+      passwordRegisterTextError.setText(mActivity.getResources().getString(R.string.required));
+      passwordRegisterTextError.setVisibility(View.VISIBLE);
+    }
+    return hasvalidForm;
+  }
+
 }

@@ -3,6 +3,7 @@ package iknox27.proyectoaverias.utils;
 import android.app.Activity;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -40,6 +41,7 @@ public class TextWatcher implements android.text.TextWatcher {
             case 4 : validateUsername(charSequence.toString()); break;
             case 5 : validatePassword(charSequence.toString()); break;
             case 6 : noEmpty(charSequence.toString()); break;
+            case 7 : validateUsernameFromLogin(charSequence.toString()); break;
         }
     }
 
@@ -111,6 +113,25 @@ public class TextWatcher implements android.text.TextWatcher {
         }
     }
 
+    private void validateUsernameFromLogin(CharSequence target){
+        if(target.length() == 0){
+            editText.setBackground(activity.getDrawable(R.drawable.edittext_rounded_error));
+            text.setText("Usuario es requerido");
+            text.setVisibility(View.VISIBLE);
+        }else{
+            if(((UserActivity) activity).getExiste(target.toString())){
+                Log.d("etre","s");
+                editText.setBackground(activity.getDrawable(R.drawable.edittext_rounded_error));
+                text.setText("Usuario no existe");
+                text.setVisibility(View.VISIBLE);
+            }else{
+                Log.d("etre","l");
+                editText.setBackground(activity.getDrawable(R.drawable.edittext_rounded));
+                text.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
     private void validatePassword(CharSequence target){
             if(target.length() < 8){
                 editText.setBackground(activity.getDrawable(R.drawable.edittext_rounded_error));
@@ -138,4 +159,4 @@ public class TextWatcher implements android.text.TextWatcher {
 
 
 }
-//https://stackoverflow.com/questions/26574328/changing-edittext-bottom-line-color-with-appcompat-v7
+//
