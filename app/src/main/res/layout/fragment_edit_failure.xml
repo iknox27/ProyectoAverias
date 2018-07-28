@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="1"
+            android:maxLines="1"
             android:hint="Nombre" />
 
     </android.support.design.widget.TextInputLayout>
@@ -34,6 +35,8 @@
             android:id="@+id/input_type_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="1"
             android:hint="Tipo" />
 
     </android.support.design.widget.TextInputLayout>
@@ -68,6 +71,7 @@
             android:text="Fecha"
             android:textSize="18sp"
             android:textColor="#000"
+            android:paddingStart="6dp"
             android:paddingBottom="5dp"
             />
 
@@ -79,6 +83,7 @@
             android:text="Escoja la fecha"
             android:textColor="#A9A9A9"
             android:textSize="16sp"
+            android:paddingStart="6dp"
             android:paddingBottom="16dp"
             />
     </LinearLayout>

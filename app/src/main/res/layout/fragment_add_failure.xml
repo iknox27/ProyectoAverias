@@ -18,6 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="1"
+            android:inputType="text"
+            android:maxLines="1"
             android:hint="Nombre" />
 
     </android.support.design.widget.TextInputLayout>
@@ -34,6 +36,8 @@
             android:id="@+id/input_type_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="1"
             android:hint="Tipo" />
 
     </android.support.design.widget.TextInputLayout>

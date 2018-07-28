@@ -126,7 +126,7 @@ public class UserDBManager {
         ArrayList<User> contacts = new ArrayList<User>();
         try {
             Dao<User, Integer> userDao = bdHelper.getUserDao();
-            contacts = (ArrayList<User>) userDao.queryForEq("token",usermname);
+            contacts = (ArrayList<User>) userDao.queryForEq("username",usermname);
             if(contacts.size() > 0){
                 return false;
             }else{

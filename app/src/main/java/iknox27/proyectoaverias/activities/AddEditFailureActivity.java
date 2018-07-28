@@ -305,7 +305,7 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
     public void addFailure(final String name, final String type ,final String des, final String date) {
         utils.showProgess(this,"Creando Avería");
         android.location.Location loc = utils.getLastKnownLocation(AddEditFailureActivity.this);
-        User u = userDBManager.getCurrentUser(preferenceManager.getStringValue(AddEditFailureActivity.this,"token"));
+        User u = userDBManager.getCurrentUser(preferenceManager.getStringValue(AddEditFailureActivity.this,"rememberUssr"));
         Location location = isFromMap ? latLngFromMap : new Location(loc.getLatitude(),loc.getLongitude());
         String id = utils.createkey(date+name+type);
         Failure fail = new Failure(id,name,type,date,des,"",location,u);
@@ -339,6 +339,8 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
                     }
                 }else{
                     utils.hideProgress();
+                    Toast.makeText(getApplicationContext(),
+                            "Ha ocurrido un error, intente mas tarde", Toast.LENGTH_LONG).show();
                 }
             }
             @Override
@@ -361,6 +363,9 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
                     Intent i = new Intent(AddEditFailureActivity.this, BreakDownsActivity.class);
                     startActivity(i);
                     finish();
+                }else{
+                    Toast.makeText(getApplicationContext(),
+                            "Ha ocurrido un error, intente mas tarde", Toast.LENGTH_LONG).show();
                 }
                 Log.d("respone", "respone" + response.isSuccessful());
             }
@@ -401,6 +406,10 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
                     startActivity(i);
                     finish();
 
+                }else{
+                    utils.hideProgress();
+                    Toast.makeText(getApplicationContext(),
+                            "Ha ocurrido un error, intente mas tarde", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -446,6 +455,9 @@ public class AddEditFailureActivity extends AppCompatActivity implements  AddFai
                     Intent i = new Intent(AddEditFailureActivity.this, BreakDownsActivity.class);
                     startActivity(i);
                     finish();
+                }else{
+                    Toast.makeText(getApplicationContext(),
+                            "Ha ocurrido un error, intente mas tarde", Toast.LENGTH_LONG).show();
                 }
             }
 

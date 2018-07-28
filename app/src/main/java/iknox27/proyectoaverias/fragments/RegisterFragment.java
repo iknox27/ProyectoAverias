@@ -112,24 +112,43 @@ public class RegisterFragment extends Fragment {
     boolean hasvalidForm = true;
     if(name.getText().length() == 0){
       hasvalidForm = false;
+      name.setBackground(mActivity.getDrawable(R.drawable.edittext_rounded_error));
+      nameTextError.setText("Este campo es requerido");
+      nameTextError.setVisibility(View.VISIBLE);
     }
     if (TextUtils.isEmpty(email.getText().toString()) && !android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()){
       hasvalidForm = false;
+      email.setBackground(mActivity.getDrawable(R.drawable.edittext_rounded_error));
+      emailTextError.setText("Formato de correo incorrecto");
+      emailTextError.setVisibility(View.VISIBLE);
     }
     if(phoneNumber.getText().length() < 8){
       hasvalidForm = false;
+      phoneNumber.setBackground(mActivity.getDrawable(R.drawable.edittext_rounded_error));
+      phoneNumberTextError.setText("Formato de teléfono incorrecto");
+      phoneNumberTextError.setVisibility(View.VISIBLE);
     }
 
     if(userid.getText().toString().length() < 9){
       hasvalidForm = false;
+      userid.setBackground(mActivity.getDrawable(R.drawable.edittext_rounded_error));
+      useridTextError.setText("Cédula debe tener almenos  9 digitos");
+      useridTextError.setVisibility(View.VISIBLE);
     }
 
     if (usernameRegister.getText().length() == 0 && mActivity.getExiste(usernameRegister.getText().toString())){
       hasvalidForm = false;
+      usernameRegister.setBackground(mActivity.getDrawable(R.drawable.edittext_rounded_error));
+      usernameRegisterTextError.setText("Problemas al guardar el usuario");
+      usernameRegisterTextError.setVisibility(View.VISIBLE);
+
     }
 
     if (passwordRegister.getText().length() < 8){
       hasvalidForm = false;
+      passwordRegister.setBackground(mActivity.getDrawable(R.drawable.edittext_rounded_error));
+      passwordRegisterTextError.setText("Contraseña debe tener almenos  8 digitos");
+      passwordRegisterTextError.setVisibility(View.VISIBLE);
     }
 
 

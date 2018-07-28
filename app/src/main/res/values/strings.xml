@@ -20,4 +20,5 @@
     <string name="canceling">Cancelar</string>
     <string name="create_failure">Crear avería</string>
     <string name="question_create">¿Desea crear una nueva avería en este punto?</string>
+    <string name="sign_out">Cerrar Sesión</string>
 </resources>

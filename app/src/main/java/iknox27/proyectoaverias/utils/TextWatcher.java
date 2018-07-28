@@ -47,7 +47,7 @@ public class TextWatcher implements android.text.TextWatcher {
     public void afterTextChanged(Editable editable) {
     }
 
-    public void  validateEmail(CharSequence target) {
+    private void  validateEmail(CharSequence target) {
         if(!TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches()){
             editText.setBackground(activity.getDrawable(R.drawable.edittext_rounded));
             text.setVisibility(View.INVISIBLE);
@@ -59,7 +59,7 @@ public class TextWatcher implements android.text.TextWatcher {
 
     }
 
-    public void validateNumber(CharSequence target){
+    private void validateNumber(CharSequence target){
        if(target.toString().toLowerCase().matches(NUMBER_REGEX)){
            if(target.length() < 8){
                editText.setBackground(activity.getDrawable(R.drawable.edittext_rounded_error));
@@ -77,7 +77,7 @@ public class TextWatcher implements android.text.TextWatcher {
     }
 
 
-    public void validateCardID(CharSequence target){
+    private void validateCardID(CharSequence target){
         if(target.toString().toLowerCase().matches(NUMBER_REGEX)){
             if(target.length() < 9){
                 editText.setBackground(activity.getDrawable(R.drawable.edittext_rounded_error));
@@ -94,7 +94,7 @@ public class TextWatcher implements android.text.TextWatcher {
         }
     }
 
-    public void validateUsername(CharSequence target){
+    private void validateUsername(CharSequence target){
         if(target.length() == 0){
             editText.setBackground(activity.getDrawable(R.drawable.edittext_rounded_error));
             text.setText("Usuario es requerido");
@@ -111,10 +111,10 @@ public class TextWatcher implements android.text.TextWatcher {
         }
     }
 
-    public void validatePassword(CharSequence target){
+    private void validatePassword(CharSequence target){
             if(target.length() < 8){
                 editText.setBackground(activity.getDrawable(R.drawable.edittext_rounded_error));
-                text.setText("Contraseña debe tener almenos  8 digitos\"");
+                text.setText("Contraseña debe tener almenos  8 digitos");
                 text.setVisibility(View.VISIBLE);
             }else{
                 editText.setBackground(activity.getDrawable(R.drawable.edittext_rounded));
@@ -123,8 +123,8 @@ public class TextWatcher implements android.text.TextWatcher {
 
     }
 
-    public void noEmpty(CharSequence target){
-        if(target.length()==00){
+    private void noEmpty(CharSequence target){
+        if(target.length()==0){
             editText.setBackground(activity.getDrawable(R.drawable.edittext_rounded_error));
             text.setText("Este campo es requerido");
             text.setVisibility(View.VISIBLE);
